@@ -19,6 +19,7 @@
       --red-dark:#a4071a;
       --soft:#ff7885;
       --good:#8dffab;
+      --focus-ring:rgba(255,120,133,.42);
       --shadow:0 24px 75px rgba(0,0,0,.52);
       --radius-lg:30px;
       --radius-md:21px;
@@ -43,7 +44,7 @@
     button{border:1px solid transparent;border-radius:999px;padding:.8rem 1rem;color:#fff;background:linear-gradient(135deg,var(--red),var(--red-dark));font-weight:900;cursor:pointer;box-shadow:0 12px 30px rgba(255,51,71,.2);transition:transform .14s ease,filter .14s ease,border-color .14s ease,opacity .22s ease,background .14s ease}
     button:hover{transform:translateY(-1px);filter:brightness(1.06)}
     button:active{transform:translateY(1px)}
-    button:focus-visible,input:focus-visible,select:focus-visible,[contenteditable]:focus-visible{outline:3px solid rgba(255,120,133,.42);outline-offset:2px}
+    button:focus-visible,input:focus-visible,select:focus-visible,[contenteditable]:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px}
     .secondary,.moon,.add,.shop-tab,.minus{color:var(--text);background:rgba(255,255,255,.05);border-color:var(--line);box-shadow:none}
     .sr{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 
@@ -54,7 +55,7 @@
     .view-tab{position:relative;width:100%;min-height:58px;display:flex;align-items:center;justify-content:flex-start;padding:.9rem 1rem;border:1px solid rgba(255,67,82,.36);border-radius:15px;color:#e7b4ba;background:rgba(21,2,5,.93);box-shadow:0 15px 40px rgba(0,0,0,.28);font:900 .92rem/1.15 var(--mono);letter-spacing:.02em;text-transform:uppercase;text-align:left}
     .view-tab:hover{border-color:rgba(255,67,82,.78);background:rgba(84,7,17,.92)}
     .view-tab.active{color:#fff;background:linear-gradient(135deg,#ef2942,#aa071c);border-color:#ff5265}
-    .view-tab.active::before{content:"";position:absolute;left:-1px;top:13px;bottom:13px;width:4px;border-radius:5px;background:var(--red)}
+    .view-tab.active::before{content:"";position:absolute;left:-1px;top:13px;bottom:13px;width:4px;border-radius:5px;background:#fff}
 
     /* Cross-fade between views */
     .app-view{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(8px);transition:opacity .25s ease,transform .25s ease,visibility 0s linear .25s}
@@ -66,7 +67,7 @@
     .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;align-items:stretch}
     .card,.rate,.drawer{border:1px solid var(--line);background:linear-gradient(145deg,rgba(28,5,8,.95),rgba(7,1,2,.91));box-shadow:var(--shadow);backdrop-filter:blur(16px)}
     .card{position:relative;min-height:274px;overflow:hidden;display:flex;flex-direction:column;gap:1rem;padding:clamp(1rem,2.4vw,1.35rem);border-radius:var(--radius-md)}
-    .card::after{content:none;display:none}
+    .card::after{content:attr(data-number);position:absolute;right:-.2rem;bottom:-2rem;color:rgba(255,51,71,.075);font:950 clamp(6rem,13vw,9rem)/1 var(--mono);pointer-events:none}
     .label{position:relative;z-index:1;display:block;color:var(--soft);font:950 .78rem var(--mono);letter-spacing:.12em;text-transform:uppercase}
     .money{position:relative;z-index:1;display:flex;align-items:center;min-height:96px;border:1px solid var(--line);border-radius:var(--radius-sm);background:rgba(3,0,1,.72);overflow:hidden}
     .prefix{flex:none;padding-left:1rem;color:var(--soft);font:950 clamp(2rem,5vw,3.35rem) var(--mono)}
@@ -202,8 +203,8 @@
     .tracker-canvas::before{display:none!important}
     .tracker-header:first-child{border-radius:0!important}
     .tracker-header{user-select:none}
-    .tracker-header-grab{position:absolute;left:0;right:38px;top:0;height:46px;z-index:2;cursor:grab;touch-action:none;user-select:none;background:transparent}
-    .tracker-header-title{position:relative;z-index:1;width:auto;min-width:48px;max-width:calc(100% - 64px);height:auto;min-height:34px;margin-top:25px;padding:.34rem .58rem;user-select:text}
+    .tracker-header-grab{position:absolute;left:0;right:38px;top:0;height:38px;z-index:2;cursor:grab;touch-action:none;user-select:none;background:transparent}
+    .tracker-header-title{position:relative;z-index:1;width:auto;min-width:48px;max-width:calc(100% - 64px);height:auto;min-height:34px;margin-top:22px;padding:.34rem .58rem;user-select:text}
     .tracker-header.employee .tracker-header-title{max-width:calc(100% - 28px);padding-inline:.58rem}
     .delete-column{z-index:3;top:61%}
     .tracker-cell{display:grid;place-items:center;padding:1.15rem;overflow:auto;white-space:normal;caret-color:auto;outline:0}
@@ -227,6 +228,7 @@
       --red-dark:#0755b1;
       --soft:#84c8ff;
       --good:#8cffcf;
+      --focus-ring:rgba(83,176,255,.62);
     }
     html.sorf-mode{background:radial-gradient(circle at 8% 0,rgba(50,157,255,.25),transparent 29rem),radial-gradient(circle at 92% 8%,rgba(0,82,176,.22),transparent 34rem),linear-gradient(145deg,#00040b,var(--bg) 55%,#03162c)}
     html.sorf-mode body::before{background-image:linear-gradient(rgba(65,161,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(65,161,255,.05) 1px,transparent 1px)}
@@ -260,26 +262,46 @@
     }
 
 
-    /* Requested polish */
-    .card::after{display:none!important;content:none!important}
-    .card[for="quota"] .status{display:none}
-    .cards .card > .label{display:block;text-align:center;font-family:var(--sans);font-size:clamp(1.34rem,2.45vw,2rem);line-height:1.08;letter-spacing:.035em}
-    .money{border-width:2px}
-    .prefix{color:var(--red)}
-    .main-input{caret-color:var(--red)}
-    html.sorf-mode .prefix,html.sorf-mode .compact-prefix{color:var(--red)!important}
-    html.sorf-mode .main-input,html.sorf-mode .compact-input{caret-color:var(--red)}
-    html.sorf-mode .price-wrap::before,html.sorf-mode .currency{color:var(--red)!important}
-    html.sorf-mode .view-tab.active::before{background:#cdeaff}
-    .tracker-header-title{text-shadow:-1px -1px 0 rgba(0,0,0,.44),1px -1px 0 rgba(0,0,0,.44),-1px 1px 0 rgba(0,0,0,.44),1px 1px 0 rgba(0,0,0,.44)}
-    .tracker-image-wrap{position:relative;display:inline-block;vertical-align:middle;max-width:calc(100% - 12px);max-height:calc(var(--tracker-cell-h) - 32px);margin:.25rem;line-height:0;user-select:none;touch-action:none}
-    .tracker-image-wrap img{display:block;width:100%;height:100%;max-width:100%;max-height:calc(var(--tracker-cell-h) - 32px);object-fit:contain;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.16);pointer-events:none}
-    .tracker-image-wrap:not([style*="width"]) img{width:auto;height:auto;max-width:100%;max-height:calc(var(--tracker-cell-h) - 32px)}
-    .tracker-resize-handle{position:absolute;right:-7px;bottom:-7px;width:19px;height:19px;border:2px solid #111;border-radius:7px;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.28);cursor:nwse-resize;opacity:0;transition:opacity .12s ease,transform .12s ease}
-    .tracker-resize-handle::before{content:"";position:absolute;right:4px;bottom:4px;width:7px;height:7px;border-right:2px solid #111;border-bottom:2px solid #111}
-    .tracker-image-wrap:hover .tracker-resize-handle,.tracker-image-wrap:focus-within .tracker-resize-handle,.tracker-image-wrap.is-resizing .tracker-resize-handle{opacity:1}
-    .tracker-image-wrap.is-resizing{z-index:10}
-    .tracker-cell-editor > img{max-width:94%;max-height:calc(var(--tracker-cell-h) - 40px);width:auto;height:auto;object-fit:contain;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.16)}
+    /* Refined Sell labels and theme-aware field focus */
+    .card::after{content:none!important;display:none!important}
+    .label{font-size:clamp(1.22rem,2.05vw,1.72rem);line-height:1.12;letter-spacing:.075em;text-align:center}
+    .main-input:focus,.main-input:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px}
+
+    /* Shop discounts */
+    .shop-item-box{position:relative;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:stretch;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.05);overflow:hidden;transition:border-color .16s ease,background .16s ease,box-shadow .16s ease}
+    .shop-item-box .add{width:100%;min-height:100%;padding:.72rem .78rem;border:0;border-radius:0;background:transparent;box-shadow:none}
+    .shop-item-box .add:hover{transform:none;filter:brightness(1.08)}
+    .shop-item-box.on-sale{border-color:rgba(79,232,119,.92);background:linear-gradient(135deg,rgba(38,190,80,.24),rgba(17,91,46,.18));box-shadow:inset 0 0 0 1px rgba(137,255,166,.16)}
+    .shop-item-box.on-sale .add{color:#effff3}
+    .shop-row.on-sale .price{border-color:rgba(79,232,119,.82);color:#c5ffd3;background:rgba(18,89,42,.32)}
+    .shop-row.on-sale .price-wrap::before{color:#8dffab}
+    .remove-sale{align-self:center;margin:.38rem .42rem .38rem 0;padding:.38rem .48rem;border:1px solid rgba(142,255,170,.72);border-radius:7px;color:#dcffe5;background:rgba(15,88,39,.72);box-shadow:none;font:900 .58rem/1.08 var(--mono);letter-spacing:.025em;text-transform:uppercase;white-space:nowrap}
+    .remove-sale:hover{transform:none;filter:brightness(1.12);background:rgba(24,124,56,.84)}
+    .remove-sale[hidden]{display:none!important}
+
+    /* Run Tracker refinements retained from the latest layout */
+    .tracker-header-title{text-shadow:-1px -1px 0 rgba(0,0,0,.62),1px -1px 0 rgba(0,0,0,.62),-1px 1px 0 rgba(0,0,0,.62),1px 1px 0 rgba(0,0,0,.62)}
+    .tracker-header-grab{height:46px}
+    .tracker-header-title{margin-top:25px}
+
+    /* Resizable tracker images with a corner handle and near-full-cell snap */
+    .tracker-image-shell{position:relative;display:inline-block;vertical-align:middle;max-width:94%;max-height:calc(var(--tracker-cell-h) - 40px);margin:.25rem;line-height:0;overflow:visible;touch-action:none}
+    .tracker-image-shell img{display:block;width:auto;height:auto;max-width:100%;max-height:calc(var(--tracker-cell-h) - 40px);margin:0;object-fit:contain;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.16);user-select:none;-webkit-user-drag:none}
+    .tracker-image-shell.is-resized img,.tracker-image-shell.is-snapped img{width:100%;height:100%;max-width:none;max-height:none}
+    .image-resize-handle{position:absolute;right:-7px;bottom:-7px;z-index:4;width:19px;height:19px;border:2px solid #fff;border-radius:5px;background:#171717;box-shadow:0 2px 7px rgba(0,0,0,.35);cursor:nwse-resize;opacity:0;transition:opacity .12s ease,transform .12s ease}
+    .image-resize-handle::before{content:"";position:absolute;right:3px;bottom:3px;width:7px;height:7px;border-right:2px solid #fff;border-bottom:2px solid #fff}
+    .tracker-image-shell:hover .image-resize-handle,.tracker-image-shell:focus-within .image-resize-handle,.image-resize-handle:focus-visible{opacity:1}
+    .tracker-image-shell.is-snap-ready{outline:4px solid rgba(67,216,108,.7);outline-offset:2px}
+    .tracker-cell:has(.tracker-image-shell.is-snapped){padding:0}
+    .tracker-cell:has(.tracker-image-shell.is-snapped) .tracker-cell-editor{width:100%;height:100%;max-height:none}
+    .tracker-image-shell.is-snapped{display:block;width:100%!important;height:100%!important;max-width:none;max-height:none;margin:0}
+    .tracker-image-shell.is-snapped img{border-radius:0;object-fit:cover}
+
+    @media(max-width:480px){
+      .remove-sale{padding:.34rem .38rem;font-size:.52rem}
+      .shop-item-box{grid-template-columns:minmax(0,1fr)}
+      .remove-sale{justify-self:start;margin:0 .5rem .45rem}
+    }
 
   </style>
 </head>
@@ -404,7 +426,24 @@
     function renderMoons(){el.moons.replaceChildren();moons.forEach(m=>{const b=document.createElement("button");b.type="button";b.className=`moon${state.moon===m.id?" active":""}`;b.dataset.moon=m.id;b.setAttribute("aria-pressed",state.moon===m.id);const n=document.createElement("span"),c=document.createElement("span");n.className="name";c.className="currency";n.textContent=m.name;c.textContent=credits(m.cost);b.append(n,c);b.onclick=()=>selectMoon(m.id);el.moons.append(b)})}
     function selectMoon(id){const old=state.moon;state.moon=old===id?null:id;renderMoons();renderSelected();sync();if(old&&state.moon&&old!==state.moon)showToast(`${byMoon[old].name} replaced with ${byMoon[state.moon].name}.`)}
     function renderTabs(){el.tabs.replaceChildren();["All","Gear","Upgrades","Decor"].forEach(cat=>{const b=document.createElement("button");b.type="button";b.className=`shop-tab${state.category===cat?" active":""}`;b.textContent=cat;b.setAttribute("aria-pressed",state.category===cat);b.onclick=()=>{state.category=cat;renderTabs();renderShop()};el.tabs.append(b)})}
-    function renderShop(){el.shop.replaceChildren();const q=state.search.trim().toLowerCase();items.filter(i=>(state.category==="All"||i.category===state.category)&&(!q||i.name.toLowerCase().includes(q))).forEach(i=>{const row=document.createElement("div");row.className="shop-row";const add=document.createElement("button");add.type="button";add.className="add";add.dataset.item=i.id;const name=document.createElement("span"),count=document.createElement("span");name.className="name";name.textContent=i.name;count.className=`count${state.cart[i.id]?" show":""}`;count.textContent=`×${state.cart[i.id]||0}`;add.append(name,count);add.onclick=()=>addItem(i.id);const wrap=document.createElement("label");wrap.className="price-wrap";const sr=document.createElement("span");sr.className="sr";sr.textContent=`${i.name} price`;const input=document.createElement("input");input.className="price";input.type="number";input.min="0";input.step="1";input.inputMode="numeric";input.value=state.prices[i.id];input.dataset.price=i.id;input.setAttribute("aria-label",`${i.name} price`);input.oninput=()=>changePrice(i.id,input.value);wrap.append(sr,input);row.append(add,wrap);el.shop.append(row)})}
+    function isDiscounted(item){return Number(state.prices[item.id])<item.price}
+    function updateShopSaleState(row,item,removeButton){const discounted=isDiscounted(item);row.classList.toggle("on-sale",discounted);row.querySelector(".shop-item-box")?.classList.toggle("on-sale",discounted);removeButton.hidden=!discounted;removeButton.setAttribute("aria-hidden",String(!discounted))}
+    function renderShop(){
+      el.shop.replaceChildren();
+      const q=state.search.trim().toLowerCase();
+      items.filter(i=>(state.category==="All"||i.category===state.category)&&(!q||i.name.toLowerCase().includes(q))).forEach(i=>{
+        const row=document.createElement("div");row.className="shop-row";row.dataset.shopItem=i.id;
+        const itemBox=document.createElement("div");itemBox.className="shop-item-box";
+        const add=document.createElement("button");add.type="button";add.className="add";add.dataset.item=i.id;
+        const name=document.createElement("span"),count=document.createElement("span");name.className="name";name.textContent=i.name;count.className=`count${state.cart[i.id]?" show":""}`;count.textContent=`×${state.cart[i.id]||0}`;add.append(name,count);add.onclick=()=>addItem(i.id);
+        const removeSale=document.createElement("button");removeSale.type="button";removeSale.className="remove-sale";removeSale.textContent="Remove Sale";removeSale.setAttribute("aria-label",`Remove sale price for ${i.name}`);
+        const wrap=document.createElement("label");wrap.className="price-wrap";const sr=document.createElement("span");sr.className="sr";sr.textContent=`${i.name} price`;
+        const input=document.createElement("input");input.className="price";input.type="number";input.min="0";input.step="1";input.inputMode="numeric";input.value=state.prices[i.id];input.dataset.price=i.id;input.setAttribute("aria-label",`${i.name} price`);
+        input.oninput=()=>{changePrice(i.id,input.value);updateShopSaleState(row,i,removeSale)};
+        removeSale.onclick=event=>{event.stopPropagation();state.prices[i.id]=i.price;input.value=String(i.price);updateShopSaleState(row,i,removeSale);if(state.cart[i.id]){renderSelected();sync()}input.focus()};
+        itemBox.append(add,removeSale);wrap.append(sr,input);row.append(itemBox,wrap);el.shop.append(row);updateShopSaleState(row,i,removeSale);
+      })
+    }
     function addItem(id){state.cart[id]=(state.cart[id]||0)+1;renderShop();renderSelected();sync()}
     function changePrice(id,value){const n=+value;state.prices[id]=Number.isFinite(n)&&n>=0?Math.floor(n):0;if(state.cart[id]){renderSelected();sync()}}
     function removeItem(id){if((state.cart[id]||0)<=1)delete state.cart[id];else state.cart[id]--;renderShop();renderSelected();sync()}
@@ -480,67 +519,23 @@
     function focusCell(rowIndex,columnIndex){requestAnimationFrame(()=>{const editor=grid.querySelector(`.tracker-cell-editor[data-row-index="${rowIndex}"][data-column-index="${columnIndex}"]`);if(editor)placeCaretAtEnd(editor)})}
     function moveBelow(rowIndex,columnIndex){if(rowIndex+1>=state.rows.length)addRow({focus:{row:state.rows.length,column:columnIndex}});else focusCell(rowIndex+1,columnIndex)}
     function commitCell(editor,rowId,columnId){state.cells.set(key(rowId,columnId),editor.innerHTML)}
-    function makeImage(src,alt="Pasted image",size={}){
-      if(!src)return null;
-      const wrap=document.createElement("span"),image=document.createElement("img"),handle=document.createElement("span");
-      wrap.className="tracker-image-wrap";wrap.contentEditable="false";wrap.draggable=true;wrap.tabIndex=0;wrap.setAttribute("role","img");wrap.setAttribute("aria-label",alt||"Tracker image");
-      if(size.width)wrap.style.width=size.width;if(size.height)wrap.style.height=size.height;
-      image.src=src;image.alt=alt;image.draggable=false;handle.className="tracker-resize-handle";handle.setAttribute("aria-hidden","true");
-      image.addEventListener("error",()=>wrap.remove(),{once:true});
-      handle.onpointerdown=startImageResize;
-      wrap.append(image,handle);return wrap
+    function createImageShell(image){
+      const shell=document.createElement("span");shell.className="tracker-image-shell";shell.contentEditable="false";shell.setAttribute("role","group");shell.setAttribute("aria-label",image.alt||"Tracker image");
+      image.contentEditable="false";image.draggable=false;
+      const handle=document.createElement("span");handle.className="image-resize-handle";handle.contentEditable="false";handle.tabIndex=0;handle.setAttribute("role","button");handle.setAttribute("aria-label","Resize image from the corner");
+      shell.append(image,handle);return shell
     }
-    function upgradeImages(editor){
-      editor.querySelectorAll("img").forEach(image=>{
-        if(image.closest(".tracker-image-wrap"))return;
-        const wrap=makeImage(image.getAttribute("src")||image.src,image.getAttribute("alt")||"Tracker image",{width:image.style.width,height:image.style.height});
-        if(wrap)image.replaceWith(wrap);
-      });
-      editor.querySelectorAll(".tracker-image-wrap").forEach(wrap=>{
-        wrap.contentEditable="false";wrap.draggable=true;wrap.tabIndex=0;
-        const img=wrap.querySelector("img");if(img)img.draggable=false;
-        let handle=wrap.querySelector(".tracker-resize-handle");
-        if(!handle){handle=document.createElement("span");handle.className="tracker-resize-handle";handle.setAttribute("aria-hidden","true");wrap.append(handle)}
-        handle.onpointerdown=startImageResize;
+    function makeImage(src,alt="Pasted image"){if(!src)return null;const image=document.createElement("img");image.src=src;image.alt=alt;const shell=createImageShell(image);image.addEventListener("error",()=>shell.remove(),{once:true});return shell}
+    function prepareEditorImages(editor){
+      [...editor.querySelectorAll("img")].forEach(image=>{
+        let shell=image.closest(".tracker-image-shell");
+        if(!shell){const parent=image.parentNode,next=image.nextSibling;shell=createImageShell(image);if(parent){if(next)parent.insertBefore(shell,next);else parent.append(shell)}}
+        else{shell.contentEditable="false";image.contentEditable="false";image.draggable=false;if(!shell.querySelector(".image-resize-handle")){const handle=document.createElement("span");handle.className="image-resize-handle";handle.contentEditable="false";handle.tabIndex=0;handle.setAttribute("role","button");handle.setAttribute("aria-label","Resize image from the corner");shell.append(handle)}}
       })
-    }
-    function imageSizeFromNode(node){
-      const style=node.getAttribute("style")||"";
-      const width=(/width\s*:\s*([^;]+)/i.exec(style)||[])[1]||"";
-      const height=(/height\s*:\s*([^;]+)/i.exec(style)||[])[1]||"";
-      return{width,height}
-    }
-    let imageResize=null;
-    function startImageResize(event){
-      const wrap=event.currentTarget.closest(".tracker-image-wrap"),editor=wrap?.closest(".tracker-cell-editor"),cell=wrap?.closest(".tracker-cell");
-      if(!wrap||!editor||!cell)return;
-      event.preventDefault();event.stopPropagation();recordHistory();
-      const rect=wrap.getBoundingClientRect(),cellRect=cell.getBoundingClientRect();
-      imageResize={wrap,editor,cell,startX:event.clientX,startY:event.clientY,startW:rect.width,startH:rect.height,cellW:cellRect.width,cellH:cellRect.height,rowId:editor.dataset.rowId,columnId:editor.dataset.columnId};
-      wrap.classList.add("is-resizing");event.currentTarget.setPointerCapture?.(event.pointerId);
-      document.addEventListener("pointermove",moveImageResize,true);document.addEventListener("pointerup",finishImageResize,true);document.addEventListener("pointercancel",finishImageResize,true);
-    }
-    function moveImageResize(event){
-      if(!imageResize)return;
-      const dx=event.clientX-imageResize.startX,dy=event.clientY-imageResize.startY,pad=22;
-      let w=Math.max(58,Math.min(imageResize.cellW-pad,imageResize.startW+dx));
-      let h=Math.max(58,Math.min(imageResize.cellH-pad,imageResize.startH+dy));
-      const snap=w>=imageResize.cellW-46&&h>=imageResize.cellH-46;
-      if(snap){w=imageResize.cellW-pad;h=imageResize.cellH-pad;imageResize.wrap.classList.add("is-snapped")}else imageResize.wrap.classList.remove("is-snapped");
-      imageResize.wrap.style.width=`${Math.round(w)}px`;imageResize.wrap.style.height=`${Math.round(h)}px`;
-      event.preventDefault();
-    }
-    function finishImageResize(event){
-      if(!imageResize)return;
-      const {wrap,editor,rowId,columnId}=imageResize;wrap.classList.remove("is-resizing");
-      commitCell(editor,rowId,columnId);
-      imageResize=null;
-      document.removeEventListener("pointermove",moveImageResize,true);document.removeEventListener("pointerup",finishImageResize,true);document.removeEventListener("pointercancel",finishImageResize,true);
-      event?.preventDefault?.();
     }
     const fileToDataUrl=file=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result||""));reader.onerror=()=>reject(reader.error);reader.readAsDataURL(file)});
     async function fragmentFromImageFiles(files){const fragment=document.createDocumentFragment();let count=0;for(const file of files){if(!file?.type?.startsWith("image/"))continue;try{const image=makeImage(await fileToDataUrl(file),file.name||"Pasted image");if(image){fragment.append(image);count++}}catch{window.showToast?.("That image could not be added.")}}return{fragment,count}}
-    function fragmentFromHtml(html){const fragment=document.createDocumentFragment();if(!html)return{fragment,hasContent:false};const doc=new DOMParser().parseFromString(html,"text/html");let hasContent=false;const appendNode=(node,parent)=>{if(node.nodeType===Node.TEXT_NODE){if(node.nodeValue){parent.append(document.createTextNode(node.nodeValue));hasContent=true}return}if(node.nodeType!==Node.ELEMENT_NODE)return;const tag=node.tagName.toLowerCase();if(tag==="span"&&node.classList.contains("tracker-image-wrap")){const img=node.querySelector("img");const image=img&&makeImage(img.getAttribute("src")||img.src,img.getAttribute("alt")||"Pasted image",imageSizeFromNode(node));if(image){parent.append(image);hasContent=true}return}if(tag==="img"){const image=makeImage(node.getAttribute("src")||node.src,node.getAttribute("alt")||"Pasted image",imageSizeFromNode(node));if(image){parent.append(image);hasContent=true}return}if(tag==="br"){parent.append(document.createElement("br"));hasContent=true;return}if(node.classList?.contains("tracker-resize-handle"))return;const block=/^(div|p|section|article|li|h[1-6])$/.test(tag);[...node.childNodes].forEach(child=>appendNode(child,parent));if(block&&parent.lastChild&&parent.lastChild.nodeName!=="BR")parent.append(document.createElement("br"))};[...doc.body.childNodes].forEach(node=>appendNode(node,fragment));while(fragment.lastChild?.nodeName==="BR")fragment.removeChild(fragment.lastChild);return{fragment,hasContent}}
+    function fragmentFromHtml(html){const fragment=document.createDocumentFragment();if(!html)return{fragment,hasContent:false};const doc=new DOMParser().parseFromString(html,"text/html");let hasContent=false;const appendNode=(node,parent)=>{if(node.nodeType===Node.TEXT_NODE){if(node.nodeValue){parent.append(document.createTextNode(node.nodeValue));hasContent=true}return}if(node.nodeType!==Node.ELEMENT_NODE)return;if(node.classList?.contains("image-resize-handle"))return;const tag=node.tagName.toLowerCase();if(tag==="img"){const image=makeImage(node.getAttribute("src")||node.src,node.getAttribute("alt")||"Pasted image");if(image){parent.append(image);hasContent=true}return}if(tag==="br"){parent.append(document.createElement("br"));hasContent=true;return}const block=/^(div|p|section|article|li|h[1-6])$/.test(tag);[...node.childNodes].forEach(child=>appendNode(child,parent));if(block&&parent.lastChild&&parent.lastChild.nodeName!=="BR")parent.append(document.createElement("br"))};[...doc.body.childNodes].forEach(node=>appendNode(node,fragment));while(fragment.lastChild?.nodeName==="BR")fragment.removeChild(fragment.lastChild);return{fragment,hasContent}}
     function setCaretAfter(node,editor){const selection=window.getSelection();if(!selection)return;const range=document.createRange();if(node?.parentNode){range.setStartAfter(node);range.collapse(true)}else{range.selectNodeContents(editor);range.collapse(false)}selection.removeAllRanges();selection.addRange(range)}
     function insertFragmentAtRange(editor,fragment,range=null){let target=range&&editor.contains(range.commonAncestorContainer)?range:selectionRangeInside(editor);if(!target){target=document.createRange();target.selectNodeContents(editor);target.collapse(false)}target.deleteContents();const last=fragment.lastChild;target.insertNode(fragment);setCaretAfter(last,editor)}
     function insertTextAtCaret(editor,text,range=null){const fragment=document.createDocumentFragment();fragment.append(document.createTextNode(text));insertFragmentAtRange(editor,fragment,range)}
@@ -554,12 +549,34 @@
     function updateSuggestion(editor){clearSuggestion(editor);if(editor.querySelector("img")||editor.children.length||!caretAtEnd(editor))return;const typed=(editor.textContent||"").trim();if(!typed||typed.includes("\n"))return;const currentKey=key(editor.dataset.rowId,editor.dataset.columnId),lower=typed.toLocaleLowerCase();let match="";for(const [candidateKey,html] of state.cells){if(candidateKey===currentKey)continue;const candidate=plainTextFromHtml(html);if(candidate.length<=typed.length||!candidate.toLocaleLowerCase().startsWith(lower))continue;if(!match||candidate.length<match.length)match=candidate}if(match){editor.dataset.suggestion=match.slice(typed.length);editor.dataset.completion=match;editor.classList.add("has-suggestion")}}
     function acceptSuggestion(editor,rowId,columnId){const completion=editor.dataset.completion;if(!completion)return false;recordHistory();editor.textContent=completion;commitCell(editor,rowId,columnId);clearSuggestion(editor);placeCaretAtEnd(editor);return true}
     function makeHeader(column,columnIndex){const header=document.createElement("div");header.className=`tracker-header${columnIndex===0?" employee":""}`;header.dataset.columnIndex=String(columnIndex);header.dataset.columnId=column.id;header.setAttribute("role","columnheader");header.style.setProperty("--header-color",columnIndex===0?"var(--red)":colorForGroup(Math.floor((columnIndex-1)/3)));const grab=document.createElement("div");grab.className="tracker-header-grab";grab.setAttribute("aria-hidden","true");const title=document.createElement("div");title.className="tracker-header-title";title.contentEditable="true";title.spellcheck=false;title.textContent=column.title;title.dataset.columnId=column.id;title.setAttribute("aria-label",`${column.title||"Column"} header`);title.addEventListener("beforeinput",event=>{if(event.inputType==="insertParagraph"||event.inputType==="insertLineBreak"){event.preventDefault();if(!state.rows.length)addRow({focus:{row:0,column:columnIndex}});else focusCell(0,columnIndex);return}recordHistory()});title.addEventListener("input",()=>{column.title=title.textContent||"";column.custom=true});title.addEventListener("keydown",event=>{if(event.key==="Enter"&&!event.shiftKey&&!event.ctrlKey&&!event.metaKey&&!event.altKey){event.preventDefault();if(!state.rows.length)addRow({focus:{row:0,column:columnIndex}});else focusCell(0,columnIndex)}});header.append(grab,title);if(columnIndex>0){const remove=makeButton("delete-column",`Delete ${column.title||"column"}`,trashIcon);remove.addEventListener("pointerdown",event=>event.stopPropagation());remove.addEventListener("click",event=>{event.stopPropagation();deleteColumn(columnIndex)});header.append(remove)}return header}
-    function makeCell(row,rowIndex,column,columnIndex){const cell=document.createElement("div");cell.className="tracker-cell";cell.dataset.rowIndex=String(rowIndex);cell.dataset.columnIndex=String(columnIndex);cell.dataset.rowId=row.id;cell.dataset.columnId=column.id;cell.setAttribute("role","gridcell");cell.setAttribute("aria-label",`${column.title||`Column ${columnIndex+1}`}, row ${rowIndex+1}`);const editor=document.createElement("div");editor.className="tracker-cell-editor";editor.contentEditable="true";editor.spellcheck=false;editor.dataset.rowIndex=String(rowIndex);editor.dataset.columnIndex=String(columnIndex);editor.dataset.rowId=row.id;editor.dataset.columnId=column.id;editor.setAttribute("role","textbox");editor.setAttribute("aria-multiline","true");editor.setAttribute("aria-label",`${column.title||`Column ${columnIndex+1}`}, row ${rowIndex+1}`);editor.innerHTML=state.cells.get(key(row.id,column.id))||"";upgradeImages(editor);commitCell(editor,row.id,column.id);editor.addEventListener("beforeinput",event=>{if(event.inputType==="historyUndo"||event.inputType==="historyRedo"){event.preventDefault();event.inputType==="historyUndo"?undo():redo();return}if(event.inputType==="insertParagraph"||event.inputType==="insertLineBreak"){event.preventDefault();if(acceptSuggestion(editor,row.id,column.id))return;commitCell(editor,row.id,column.id);moveBelow(rowIndex,columnIndex);return}recordHistory()});editor.addEventListener("input",()=>{commitCell(editor,row.id,column.id);updateSuggestion(editor)});editor.addEventListener("blur",()=>{commitCell(editor,row.id,column.id);clearSuggestion(editor)});editor.addEventListener("keydown",event=>{if(event.key==="Enter"&&!event.shiftKey&&!event.ctrlKey&&!event.metaKey&&!event.altKey){event.preventDefault();if(acceptSuggestion(editor,row.id,column.id))return;commitCell(editor,row.id,column.id);moveBelow(rowIndex,columnIndex)}});editor.addEventListener("focus",()=>updateSuggestion(editor));editor.addEventListener("keyup",event=>{if(!["Enter","Shift","Control","Meta","Alt"].includes(event.key))updateSuggestion(editor)});editor.addEventListener("click",()=>updateSuggestion(editor));editor.addEventListener("copy",event=>copySelection(event,editor));editor.addEventListener("paste",event=>handlePaste(event,editor,row.id,column.id));editor.addEventListener("dragenter",event=>{event.preventDefault();cell.classList.add("is-dragover")});editor.addEventListener("dragover",event=>{event.preventDefault();if(event.dataTransfer)event.dataTransfer.dropEffect="copy";cell.classList.add("is-dragover")});editor.addEventListener("dragleave",event=>{if(!cell.contains(event.relatedTarget))cell.classList.remove("is-dragover")});editor.addEventListener("drop",event=>handleDrop(event,cell,editor,row.id,column.id));cell.append(editor);return cell}
+    let imageResize=null;
+    function beginImageResize(event,editor,rowId,columnId){
+      const handle=event.target.closest(".image-resize-handle");if(!handle||event.button!==0)return false;
+      const shell=handle.closest(".tracker-image-shell"),cell=editor.closest(".tracker-cell");if(!shell||!cell)return false;
+      event.preventDefault();event.stopPropagation();recordHistory();
+      const rect=shell.getBoundingClientRect(),cellRect=cell.getBoundingClientRect();
+      shell.classList.add("is-resized");shell.classList.remove("is-snapped","is-snap-ready");shell.style.width=`${Math.max(56,rect.width)}px`;shell.style.height=`${Math.max(56,rect.height)}px`;
+      imageResize={pointerId:event.pointerId,handle,shell,editor,rowId,columnId,startX:event.clientX,startY:event.clientY,startW:rect.width,startH:rect.height,maxW:Math.max(70,cellRect.width),maxH:Math.max(70,cellRect.height)};
+      handle.setPointerCapture?.(event.pointerId);return true
+    }
+    function moveImageResize(event){if(!imageResize||event.pointerId!==imageResize.pointerId)return;event.preventDefault();const r=imageResize;const width=Math.max(56,Math.min(r.maxW,r.startW+event.clientX-r.startX)),height=Math.max(56,Math.min(r.maxH,r.startH+event.clientY-r.startY));r.shell.style.width=`${width}px`;r.shell.style.height=`${height}px`;r.shell.classList.toggle("is-snap-ready",width>=r.maxW*.84&&height>=r.maxH*.84)}
+    function finishImageResize(event){if(!imageResize||event.pointerId!==imageResize.pointerId)return;const r=imageResize;if(r.shell.classList.contains("is-snap-ready")){r.shell.classList.remove("is-snap-ready","is-resized");r.shell.classList.add("is-snapped");r.shell.style.width="100%";r.shell.style.height="100%"}if(r.handle.hasPointerCapture?.(event.pointerId))r.handle.releasePointerCapture(event.pointerId);commitCell(r.editor,r.rowId,r.columnId);imageResize=null}
+    window.addEventListener("pointermove",moveImageResize,{passive:false});window.addEventListener("pointerup",finishImageResize);window.addEventListener("pointercancel",finishImageResize);
+    function makeCell(row,rowIndex,column,columnIndex){const cell=document.createElement("div");cell.className="tracker-cell";cell.dataset.rowIndex=String(rowIndex);cell.dataset.columnIndex=String(columnIndex);cell.dataset.rowId=row.id;cell.dataset.columnId=column.id;cell.setAttribute("role","gridcell");cell.setAttribute("aria-label",`${column.title||`Column ${columnIndex+1}`}, row ${rowIndex+1}`);const editor=document.createElement("div");editor.className="tracker-cell-editor";editor.contentEditable="true";editor.spellcheck=false;editor.dataset.rowIndex=String(rowIndex);editor.dataset.columnIndex=String(columnIndex);editor.dataset.rowId=row.id;editor.dataset.columnId=column.id;editor.setAttribute("role","textbox");editor.setAttribute("aria-multiline","true");editor.setAttribute("aria-label",`${column.title||`Column ${columnIndex+1}`}, row ${rowIndex+1}`);editor.innerHTML=state.cells.get(key(row.id,column.id))||"";prepareEditorImages(editor);editor.addEventListener("pointerdown",event=>beginImageResize(event,editor,row.id,column.id));editor.addEventListener("beforeinput",event=>{if(event.inputType==="historyUndo"||event.inputType==="historyRedo"){event.preventDefault();event.inputType==="historyUndo"?undo():redo();return}if(event.inputType==="insertParagraph"||event.inputType==="insertLineBreak"){event.preventDefault();if(acceptSuggestion(editor,row.id,column.id))return;commitCell(editor,row.id,column.id);moveBelow(rowIndex,columnIndex);return}recordHistory()});editor.addEventListener("input",()=>{commitCell(editor,row.id,column.id);updateSuggestion(editor)});editor.addEventListener("blur",()=>{commitCell(editor,row.id,column.id);clearSuggestion(editor)});editor.addEventListener("keydown",event=>{if(event.key==="Enter"&&!event.shiftKey&&!event.ctrlKey&&!event.metaKey&&!event.altKey){event.preventDefault();if(acceptSuggestion(editor,row.id,column.id))return;commitCell(editor,row.id,column.id);moveBelow(rowIndex,columnIndex)}});editor.addEventListener("focus",()=>updateSuggestion(editor));editor.addEventListener("keyup",event=>{if(!["Enter","Shift","Control","Meta","Alt"].includes(event.key))updateSuggestion(editor)});editor.addEventListener("click",()=>updateSuggestion(editor));editor.addEventListener("copy",event=>copySelection(event,editor));editor.addEventListener("paste",event=>handlePaste(event,editor,row.id,column.id));editor.addEventListener("dragenter",event=>{event.preventDefault();cell.classList.add("is-dragover")});editor.addEventListener("dragover",event=>{event.preventDefault();if(event.dataTransfer)event.dataTransfer.dropEffect="copy";cell.classList.add("is-dragover")});editor.addEventListener("dragleave",event=>{if(!cell.contains(event.relatedTarget))cell.classList.remove("is-dragover")});editor.addEventListener("drop",event=>handleDrop(event,cell,editor,row.id,column.id));cell.append(editor);return cell}
     function render(options={}){normalizeDefaultTitles();board.style.setProperty("--tracker-cols",String(state.columns.length));board.style.setProperty("--tracker-rows",String(state.rows.length));grid.setAttribute("aria-colcount",String(state.columns.length));grid.setAttribute("aria-rowcount",String(state.rows.length+1));grid.replaceChildren();rail.replaceChildren();const spacer=document.createElement("div");spacer.className="row-delete-spacer";spacer.setAttribute("aria-hidden","true");rail.append(spacer);state.columns.forEach((column,columnIndex)=>grid.append(makeHeader(column,columnIndex)));state.rows.forEach((row,rowIndex)=>{const remove=makeButton("row-delete",`Delete row ${rowIndex+1}`,trashIcon);remove.dataset.rowIndex=String(rowIndex);remove.addEventListener("click",()=>deleteRow(rowIndex));rail.append(remove);state.columns.forEach((column,columnIndex)=>grid.append(makeCell(row,rowIndex,column,columnIndex)))});applyPosition();if(options.focus)focusCell(options.focus.row,options.focus.column)}
     function addColumn(){recordHistory();const column={id:`day-${state.nextColumnId++}`,title:`Day ${state.columns.length}`,custom:false,kind:"day"};state.columns.push(column);colorForGroup(Math.floor((state.columns.length-2)/3));render();window.showToast?.(`${column.title} added.`)}
     function addRow(options={}){recordHistory();const row={id:`row-${state.nextRowId++}`};state.rows.push(row);render(options);window.showToast?.("Row added.")}
     function deleteColumn(columnIndex){if(columnIndex<=0||columnIndex>=state.columns.length)return;recordHistory();const [column]=state.columns.splice(columnIndex,1);state.rows.forEach(row=>state.cells.delete(key(row.id,column.id)));render();window.showToast?.("Column deleted.")}
-    function deleteRow(rowIndex){if(rowIndex<0||rowIndex>=state.rows.length)return;recordHistory();const row=state.rows[rowIndex];if(state.rows.length===1&&state.columns.length>1){const employeeColumn=state.columns[0];state.columns.slice(1).forEach(column=>state.cells.delete(key(row.id,column.id)));state.columns=[employeeColumn];state.colors=[];state.colorHues=[];state.nextColumnId=1;window.showToast?.("Day columns cleared.");render();return}state.columns.forEach(column=>state.cells.delete(key(row.id,column.id)));if(state.rows.length===1){state.rows[0]={id:`row-${state.nextRowId++}`};window.showToast?.("Row cleared.")}else{state.rows.splice(rowIndex,1);window.showToast?.("Row deleted.")}render()}
+    function deleteRow(rowIndex){
+      if(rowIndex<0||rowIndex>=state.rows.length)return;recordHistory();
+      if(state.rows.length===1){
+        const removedIds=new Set(state.columns.slice(1).map(column=>column.id));
+        state.columns=state.columns.slice(0,1);
+        for(const cellKey of [...state.cells.keys()]){const columnId=cellKey.split("::")[1];if(removedIds.has(columnId))state.cells.delete(cellKey)}
+        render();return
+      }
+      const row=state.rows[rowIndex];state.columns.forEach(column=>state.cells.delete(key(row.id,column.id)));state.rows.splice(rowIndex,1);render()
+    }
     function clampPosition(x,y){const width=board.offsetWidth||1,height=board.offsetHeight||1,cw=canvas.clientWidth||1,ch=canvas.clientHeight||1,minVisible=110;const minX=Math.min(145,cw-width-minVisible),maxX=cw-minVisible,minY=Math.min(20,ch-height-minVisible),maxY=ch-minVisible;return{x:Math.min(maxX,Math.max(minX,x)),y:Math.min(maxY,Math.max(minY,y))}}
     function applyPosition(){const p=clampPosition(state.position.x,state.position.y);state.position=p;board.style.transform=`translate3d(${Math.round(p.x)}px,${Math.round(p.y)}px,0)`}
     function ensurePosition(){if(state.positioned){applyPosition();return}requestAnimationFrame(()=>{const leftReserve=window.innerWidth<=820?122:174;state.position.x=Math.max(leftReserve+28,(canvas.clientWidth-board.offsetWidth)/2+leftReserve/2);state.position.y=Math.max(48,(canvas.clientHeight-board.offsetHeight)/2);state.positioned=true;applyPosition()})}
