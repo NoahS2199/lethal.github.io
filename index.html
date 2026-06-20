@@ -6,6 +6,14 @@
   <title>Lethal Company Sell Calculator & Run Tracker</title>
   <meta name="description" content="A Lethal Company overtime sell calculator and expandable image-and-text run tracker with red and blue themes.">
   <style>
+    @font-face{
+      font-family:"3270";
+      src:url("./3270/3270-Regular.ttf") format("truetype"),
+          url("./3270/3270-Regular.otf") format("opentype");
+      font-style:normal;
+      font-weight:400;
+      font-display:block;
+    }
     :root{
       color-scheme:dark;
       --bg:#070102;
@@ -24,8 +32,8 @@
       --radius-lg:30px;
       --radius-md:21px;
       --radius-sm:14px;
-      --sans:Arial,Helvetica,sans-serif;
-      --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+      --sans:"3270","Courier New",monospace;
+      --mono:"3270","Courier New",monospace;
       --tracker-cell-w:clamp(300px,27vw,380px);
       --tracker-cell-h:clamp(245px,24vw,330px);
       --tracker-header-h:70px;
@@ -139,13 +147,13 @@
     .tracker-grid{grid-column:2;grid-row:1;display:grid;grid-template-columns:repeat(var(--tracker-cols),var(--tracker-cell-w));grid-template-rows:var(--tracker-header-h) repeat(var(--tracker-rows),var(--tracker-cell-h));gap:0;background:#fff;border-left:3px solid var(--red);border-top:3px solid var(--red)}
     .tracker-header{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;color:#fff;background:var(--header-color,#d30d2f);border-right:2px solid rgba(255,255,255,.34);border-bottom:3px solid rgba(255,255,255,.3);cursor:grab;touch-action:none;overflow:hidden}
     .tracker-header:first-child{border-top-left-radius:10px}
-    .tracker-header-title{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 44px 0 18px;color:inherit;font:900 clamp(1.08rem,1.6vw,1.38rem)/1.1 Arial,Helvetica,sans-serif;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:text;user-select:text;outline:0}
+    .tracker-header-title{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 44px 0 18px;color:inherit;font:900 clamp(1.08rem,1.6vw,1.38rem)/1.1 var(--sans);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:text;user-select:text;outline:0}
     .tracker-header.employee .tracker-header-title{padding-inline:18px}
     .delete-column{position:absolute;right:7px;top:50%;display:grid;place-items:center;width:29px;height:29px;padding:0;border:1px solid rgba(255,255,255,.42);border-radius:8px;color:#fff;background:rgba(0,0,0,.24);box-shadow:none;opacity:0;transform:translateY(-50%) scale(.88);pointer-events:none;transition:opacity .14s ease,transform .14s ease,background .14s ease}
     .tracker-header:hover .delete-column,.tracker-header:focus-within .delete-column,.delete-column:focus-visible{opacity:1;transform:translateY(-50%) scale(1);pointer-events:auto}
     .delete-column:hover{transform:translateY(-50%) scale(1.04);background:rgba(0,0,0,.4);filter:none}
     .delete-column svg,.row-delete svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
-    .tracker-cell{position:relative;min-width:0;min-height:0;display:flex;flex-wrap:wrap;align-content:center;align-items:center;justify-content:center;gap:.55rem;padding:1.15rem;color:#1f1113;background:#fff;border-right:3px solid rgba(255,51,71,.32);border-bottom:3px solid rgba(255,51,71,.32);font:700 clamp(1.8rem,2.35vw,2.55rem)/1.22 Arial,Helvetica,sans-serif;text-align:center;overflow:auto;overflow-wrap:anywhere;white-space:pre-wrap;caret-color:#000;outline:0;scrollbar-width:thin;scrollbar-color:rgba(190,10,43,.35) transparent}
+    .tracker-cell{position:relative;min-width:0;min-height:0;display:flex;flex-wrap:wrap;align-content:center;align-items:center;justify-content:center;gap:.55rem;padding:1.15rem;color:#1f1113;background:#fff;border-right:3px solid rgba(255,51,71,.32);border-bottom:3px solid rgba(255,51,71,.32);font:700 clamp(1.8rem,2.35vw,2.55rem)/1.22 var(--sans);text-align:center;overflow:auto;overflow-wrap:anywhere;white-space:pre-wrap;caret-color:#000;outline:0;scrollbar-width:thin;scrollbar-color:rgba(190,10,43,.35) transparent}
     .tracker-cell:focus{z-index:2;box-shadow:none}
     .tracker-cell.is-dragover{background:#fff1f3;box-shadow:inset 0 0 0 5px rgba(255,51,71,.55)}
     .tracker-cell img{display:block;max-width:94%;max-height:calc(var(--tracker-cell-h) - 40px);width:auto;height:auto;object-fit:contain;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.16)}
@@ -155,7 +163,7 @@
     .row-delete{display:grid;place-items:center;width:100%;height:100%;padding:0;border:2px dashed rgba(255,67,82,.86);border-right:0;border-radius:0;color:var(--soft);background:rgba(255,255,255,.025);box-shadow:none;opacity:0;pointer-events:none;transform:none;transition:opacity .14s ease,background .14s ease,color .14s ease}
     .row-delete.is-visible,.row-delete:focus-visible{opacity:1;pointer-events:auto}
     .row-delete:hover{transform:none;filter:none;color:#fff;background:rgba(255,51,71,.18)}
-    .tracker-expander{display:grid;place-items:center;min-width:0;min-height:0;padding:0;border:2px dashed rgba(255,67,82,.9);border-radius:0;color:var(--soft);background:rgba(255,255,255,.025);box-shadow:none;font:400 2.55rem/1 Arial,Helvetica,sans-serif;opacity:0;pointer-events:none;transform:none;transition:opacity .14s ease,background .14s ease,color .14s ease}
+    .tracker-expander{display:grid;place-items:center;min-width:0;min-height:0;padding:0;border:2px dashed rgba(255,67,82,.9);border-radius:0;color:var(--soft);background:rgba(255,255,255,.025);box-shadow:none;font:400 2.55rem/1 var(--sans);opacity:0;pointer-events:none;transform:none;transition:opacity .14s ease,background .14s ease,color .14s ease}
     .tracker-expander:hover{transform:none;filter:none;color:#fff;background:rgba(255,51,71,.16)}
     .tracker-expander:active{transform:none;background:rgba(255,51,71,.25)}
     .tracker-expander:focus-visible{opacity:1;pointer-events:auto;outline:3px solid rgba(255,120,133,.48);outline-offset:3px}
@@ -208,7 +216,7 @@
     .tracker-header.employee .tracker-header-title{max-width:calc(100% - 28px);padding-inline:.58rem}
     .delete-column{z-index:3;top:61%}
     .tracker-cell{display:grid;place-items:center;padding:1.15rem;overflow:auto;white-space:normal;caret-color:auto;outline:0}
-    .tracker-cell-editor{position:relative;width:100%;min-width:1px;min-height:1.22em;max-height:100%;color:#171717;font:700 clamp(1.8rem,2.35vw,2.55rem)/1.22 Arial,Helvetica,sans-serif;text-align:center;overflow-wrap:anywhere;white-space:pre-wrap;caret-color:#000;outline:0}
+    .tracker-cell-editor{position:relative;width:100%;min-width:1px;min-height:1.22em;max-height:100%;color:#171717;font:700 clamp(1.8rem,2.35vw,2.55rem)/1.22 var(--sans);text-align:center;overflow-wrap:anywhere;white-space:pre-wrap;caret-color:#000;outline:0}
     .tracker-cell-editor:focus,.tracker-cell-editor:focus-visible{outline:none!important}
     .tracker-cell-editor:empty::before{content:"";display:inline-block;height:1em}
     .tracker-cell-editor.has-suggestion::after{content:attr(data-suggestion);color:#aaa;font:inherit;white-space:pre;pointer-events:none}
@@ -303,7 +311,77 @@
       .remove-sale{justify-self:start;margin:0 .5rem .45rem}
     }
 
+
+    /* 3270 font and final Run Tracker interaction refinements */
+    body,input,select,button,[contenteditable]{font-family:var(--sans)}
+
+    /* Let the fixed tabs float over the centered calculator instead of reserving space. */
+    .sell-view{padding-left:0}
+    .app-view,.app-view.is-active{transform:none!important}
+
+    /* Keep the tracker on a stable non-transformed layer so hovering never shifts or softens text. */
+    .tracker-board{filter:none;will-change:auto;transform:none}
+    .tracker-grid{box-shadow:0 26px 46px rgba(0,0,0,.38)}
+    .tracker-header,.tracker-header-title,.tracker-cell,.tracker-cell-editor{transition:none;backface-visibility:visible}
+    .tracker-header-title{
+      position:absolute;inset:0;
+      width:auto;height:auto;min-width:0;max-width:none;min-height:0;
+      margin:0;padding:0 46px 0 18px;
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--sans);line-height:1;text-align:center;
+      transform:none!important;
+    }
+    .tracker-header.employee .tracker-header-title{max-width:none;padding:0 18px}
+    .tracker-header-grab{left:0;right:38px;top:0;height:28px}
+    .delete-column,
+    .tracker-header:hover .delete-column,
+    .tracker-header:focus-within .delete-column,
+    .delete-column:focus-visible,
+    .delete-column:hover{top:50%;transform:translateY(-50%)!important}
+    .delete-column{transition:opacity .14s ease,background .14s ease}
+
+    /* Scrollbars stay hidden until that cell is active and overlay its content where supported. */
+    .tracker-cell{
+      overflow:auto;overflow:overlay;
+      scrollbar-width:none;
+      scrollbar-color:transparent transparent;
+    }
+    .tracker-cell::-webkit-scrollbar{width:0;height:0}
+    .tracker-cell:focus-within{
+      scrollbar-width:thin;
+      scrollbar-color:rgba(190,10,43,.78) transparent;
+    }
+    .tracker-cell:focus-within::-webkit-scrollbar{width:10px;height:10px}
+    .tracker-cell:focus-within::-webkit-scrollbar-track,
+    .tracker-cell:focus-within::-webkit-scrollbar-corner{background:transparent}
+    .tracker-cell:focus-within::-webkit-scrollbar-thumb{
+      min-height:28px;border:2px solid transparent;border-radius:999px;
+      background:rgba(190,10,43,.78);background-clip:padding-box;
+    }
+    html.sorf-mode .tracker-cell:focus-within{scrollbar-color:rgba(50,157,255,.88) transparent}
+    html.sorf-mode .tracker-cell:focus-within::-webkit-scrollbar-thumb{background:rgba(50,157,255,.88);background-clip:padding-box}
+
+    /* Four small blue resize dots, one at every image corner. */
+    .image-resize-handle{
+      position:absolute;z-index:6;width:13px;height:13px;
+      border:2px solid #fff;border-radius:50%;
+      background:#2f9dff;box-shadow:0 2px 7px rgba(0,0,0,.38);
+      opacity:0;transition:opacity .12s ease;
+    }
+    .image-resize-handle::before{content:none}
+    .image-resize-handle[data-corner="tl"]{left:-6px;top:-6px;right:auto;bottom:auto;cursor:nwse-resize}
+    .image-resize-handle[data-corner="tr"]{right:-6px;top:-6px;left:auto;bottom:auto;cursor:nesw-resize}
+    .image-resize-handle[data-corner="bl"]{left:-6px;bottom:-6px;right:auto;top:auto;cursor:nesw-resize}
+    .image-resize-handle[data-corner="br"]{right:-6px;bottom:-6px;left:auto;top:auto;cursor:nwse-resize}
+    .tracker-image-shell:hover .image-resize-handle,
+    .tracker-image-shell:focus-within .image-resize-handle,
+    .image-resize-handle:focus-visible{opacity:1}
+
   </style>
+  <script>
+    (()=>{try{const saved=JSON.parse(localStorage.getItem("lc-tool-ui-v1")||"null");if(saved?.sorfMode)document.documentElement.classList.add("sorf-mode")}catch{}})();
+  </script>
+
 </head>
 <body>
   <nav id="viewNav" class="view-nav" aria-label="Website sections">
@@ -450,7 +528,17 @@
     function card(title,detail,label,fn){const a=document.createElement("article");a.className="selected";const h=document.createElement("strong"),s=document.createElement("small"),b=document.createElement("button");h.textContent=title;s.textContent=detail;b.type="button";b.className="minus";b.textContent="−";b.setAttribute("aria-label",label);b.onclick=fn;a.append(h,s,b);return a}
     function renderSelected(){el.selected.replaceChildren();let count=0;if(state.moon){const m=byMoon[state.moon];el.selected.append(card(m.name,credits(m.cost),`Remove ${m.name}`,()=>{state.moon=null;renderMoons();renderSelected();sync()}));count++}Object.entries(state.cart).forEach(([id,qty])=>{const i=byItem[id],p=state.prices[id]||0;el.selected.append(card(`${i.name} ×${qty}`,`${credits(p)} each · ${credits(p*qty)} total`,`Remove one ${i.name}`,()=>removeItem(id)));count++});el.empty.hidden=count>0;el.total.textContent=credits(total())}
     function clearPurchases(){state.moon=null;state.cart={};renderMoons();renderShop();renderSelected();sync()}
-    function showDrawer(open){el.drawer.classList.toggle("open",open);el.open.setAttribute("aria-expanded",String(open));if(open)requestAnimationFrame(()=>el.drawer.scrollIntoView({behavior:"smooth",block:"start"}))}
+    function showDrawer(open,scroll=true){el.drawer.classList.toggle("open",open);el.open.setAttribute("aria-expanded",String(open));if(open&&scroll)requestAnimationFrame(()=>el.drawer.scrollIntoView({behavior:"smooth",block:"start"}))}
+    function safeInputValue(value){const number=Number(value);return value!==""&&value!==null&&value!==undefined&&Number.isFinite(number)&&number>=0?String(Math.floor(number)):""}
+    function exportState(){return{quota:el.quota.value,scrap:el.scrap.value,desired:el.desired.value,rate:el.rate.value,moon:state.moon,cart:{...state.cart},prices:{...state.prices},category:state.category,search:state.search,calculatorMode:state.calculatorMode,scrapWasCalculated:state.scrapWasCalculated,drawerOpen:el.drawer.classList.contains("open")}}
+    function restoreState(saved={}){
+      state.moon=typeof saved.moon==="string"&&byMoon[saved.moon]?saved.moon:null;
+      const restoredCart={};Object.entries(saved.cart&&typeof saved.cart==="object"?saved.cart:{}).forEach(([id,qty])=>{const amount=Math.floor(Number(qty));if(byItem[id]&&Number.isFinite(amount)&&amount>0)restoredCart[id]=amount});state.cart=restoredCart;
+      state.prices=Object.fromEntries(items.map(item=>{const value=Number(saved.prices?.[item.id]);return[item.id,Number.isFinite(value)&&value>=0?Math.floor(value):item.price]}));
+      state.category=["All","Gear","Upgrades","Decor"].includes(saved.category)?saved.category:"All";state.search=typeof saved.search==="string"?saved.search:"";state.calculatorMode=saved.calculatorMode==="sale"?"sale":"target";state.scrapWasCalculated=Boolean(saved.scrapWasCalculated);
+      el.quota.value=safeInputValue(saved.quota);el.scrap.value=safeInputValue(saved.scrap);el.desired.value=safeInputValue(saved.desired);const rate=String(saved.rate??"100");el.rate.value=[...el.rate.options].some(option=>option.value===rate)?rate:"100";el.search.value=state.search;
+      renderMoons();renderTabs();renderShop();renderSelected();showDrawer(Boolean(saved.drawerOpen),false);calculate();
+    }
     window.showToast=function(){};
     el.quota.oninput=calculate;
     el.scrap.oninput=()=>{state.calculatorMode="sale";state.scrapWasCalculated=false;calculate()};
@@ -458,15 +546,16 @@
     el.desired.oninput=()=>{state.calculatorMode="target";if(read(el.desired)===null&&state.scrapWasCalculated){el.scrap.value="";state.scrapWasCalculated=false}calculate()};
     el.rate.onchange=calculate;el.open.onclick=()=>showDrawer(!el.drawer.classList.contains("open"));el.close.onclick=()=>showDrawer(false);el.search.oninput=()=>{state.search=el.search.value;renderShop()};el.clear.onclick=clearPurchases;
     renderMoons();renderTabs();renderShop();renderSelected();calculate();
+    window.sellCalculator={exportState,restoreState};
   })();
   </script>
 
   <script>
   (()=>{"use strict";
     const nav=document.getElementById("viewNav"),tabs=[...document.querySelectorAll(".view-tab")],views={sell:document.getElementById("sellView"),tracker:document.getElementById("trackerView")},toggle=document.getElementById("sorfModeToggle");
-    let activeView="sell",idleTimer,sorfMode=false;
+    let activeView="sell",idleTimer,sorfMode=document.documentElement.classList.contains("sorf-mode");
     function setView(name){
-      if(!views[name]||name===activeView)return;
+      if(!views[name])return;
       activeView=name;
       Object.entries(views).forEach(([key,view])=>{const on=key===name;view.classList.toggle("is-active",on);view.setAttribute("aria-hidden",String(!on))});
       tabs.forEach(tab=>{const on=tab.dataset.view===name;tab.classList.toggle("active",on);tab.setAttribute("aria-selected",String(on))});
@@ -490,8 +579,10 @@
     toggle.addEventListener("click",()=>setSorfMode(!sorfMode));
     function markActive(){nav.classList.remove("is-idle");clearTimeout(idleTimer);idleTimer=setTimeout(()=>nav.classList.add("is-idle"),30000)}
     ["pointermove","pointerdown","keydown","wheel","touchstart","focus"].forEach(type=>window.addEventListener(type,markActive,{passive:true}));
-    setSorfMode(false);markActive();
-    window.siteViews={setView,setSorfMode,get active(){return activeView},get sorfMode(){return sorfMode}};
+    function exportState(){return{activeView,sorfMode}}
+    function restoreState(saved={}){setSorfMode(Boolean(saved.sorfMode));setView(saved.activeView==="tracker"?"tracker":"sell")}
+    setSorfMode(sorfMode);markActive();
+    window.siteViews={setView,setSorfMode,exportState,restoreState,get active(){return activeView},get sorfMode(){return sorfMode}};
   })();
   </script>
 
@@ -510,6 +601,17 @@
     function normalizeDefaultTitles(){state.columns.slice(1).forEach((column,index)=>{if(!column.custom)column.title=`Day ${index+1}`})}
     function makeButton(className,label,html){const b=document.createElement("button");b.type="button";b.className=className;b.setAttribute("aria-label",label);b.innerHTML=html;return b}
     function snapshot(){return{columns:state.columns.map(column=>({...column})),rows:state.rows.map(row=>({...row})),cells:[...state.cells.entries()],colors:[...state.colors],colorHues:[...state.colorHues],position:{...state.position},positioned:state.positioned,nextColumnId:state.nextColumnId,nextRowId:state.nextRowId}}
+    function persistentSnapshot(){return snapshot()}
+    function restorePersistent(data){
+      if(!data||typeof data!=="object")return;
+      const defaultColumn={id:"employees",title:"Employees",custom:false,kind:"employee"},defaultRow={id:"row-1"};
+      const columns=Array.isArray(data.columns)?data.columns.filter(column=>column&&typeof column.id==="string").map(column=>({id:column.id,title:typeof column.title==="string"?column.title:"",custom:Boolean(column.custom),kind:column.kind==="day"?"day":"employee"})):[];
+      const rows=Array.isArray(data.rows)?data.rows.filter(row=>row&&typeof row.id==="string").map(row=>({id:row.id})):[];
+      const cells=Array.isArray(data.cells)?data.cells.filter(entry=>Array.isArray(entry)&&entry.length===2&&typeof entry[0]==="string"&&typeof entry[1]==="string"):[];
+      const position=data.position&&Number.isFinite(Number(data.position.x))&&Number.isFinite(Number(data.position.y))?{x:Number(data.position.x),y:Number(data.position.y)}:{x:0,y:0};
+      restore({columns:columns.length?columns:[defaultColumn],rows:rows.length?rows:[defaultRow],cells,colors:Array.isArray(data.colors)?data.colors.filter(color=>typeof color==="string"):[],colorHues:Array.isArray(data.colorHues)?data.colorHues.filter(hue=>Number.isFinite(Number(hue))).map(Number):[],position,positioned:Boolean(data.positioned),nextColumnId:Number.isFinite(Number(data.nextColumnId))?Math.max(1,Math.floor(Number(data.nextColumnId))):1,nextRowId:Number.isFinite(Number(data.nextRowId))?Math.max(2,Math.floor(Number(data.nextRowId))):2});
+      state.history.length=0;state.future.length=0;
+    }
     function restore(data){state.restoring=true;state.columns=data.columns.map(column=>({...column}));state.rows=data.rows.map(row=>({...row}));state.cells=new Map(data.cells);state.colors=[...data.colors];state.colorHues=[...data.colorHues];state.position={...data.position};state.positioned=data.positioned;state.nextColumnId=data.nextColumnId;state.nextRowId=data.nextRowId;render();state.restoring=false}
     function recordHistory(){if(state.restoring)return;state.history.push(snapshot());if(state.history.length>120)state.history.shift();state.future.length=0}
     function undo(){if(!state.history.length){window.showToast?.("Nothing to undo.");return}state.future.push(snapshot());restore(state.history.pop());window.showToast?.("Change restored.")}
@@ -519,18 +621,24 @@
     function focusCell(rowIndex,columnIndex){requestAnimationFrame(()=>{const editor=grid.querySelector(`.tracker-cell-editor[data-row-index="${rowIndex}"][data-column-index="${columnIndex}"]`);if(editor)placeCaretAtEnd(editor)})}
     function moveBelow(rowIndex,columnIndex){if(rowIndex+1>=state.rows.length)addRow({focus:{row:state.rows.length,column:columnIndex}});else focusCell(rowIndex+1,columnIndex)}
     function commitCell(editor,rowId,columnId){state.cells.set(key(rowId,columnId),editor.innerHTML)}
+    const imageCorners=["tl","tr","bl","br"];
+    function makeImageResizeHandle(corner){
+      const handle=document.createElement("span");handle.className="image-resize-handle";handle.dataset.corner=corner;handle.contentEditable="false";handle.tabIndex=0;handle.setAttribute("role","button");handle.setAttribute("aria-label",`Resize image from the ${corner} corner`);return handle
+    }
+    function ensureImageResizeHandles(shell){
+      shell.querySelectorAll(".image-resize-handle").forEach(handle=>handle.remove());
+      imageCorners.forEach(corner=>shell.append(makeImageResizeHandle(corner)));
+    }
     function createImageShell(image){
       const shell=document.createElement("span");shell.className="tracker-image-shell";shell.contentEditable="false";shell.setAttribute("role","group");shell.setAttribute("aria-label",image.alt||"Tracker image");
-      image.contentEditable="false";image.draggable=false;
-      const handle=document.createElement("span");handle.className="image-resize-handle";handle.contentEditable="false";handle.tabIndex=0;handle.setAttribute("role","button");handle.setAttribute("aria-label","Resize image from the corner");
-      shell.append(image,handle);return shell
+      image.contentEditable="false";image.draggable=false;shell.append(image);ensureImageResizeHandles(shell);return shell
     }
     function makeImage(src,alt="Pasted image"){if(!src)return null;const image=document.createElement("img");image.src=src;image.alt=alt;const shell=createImageShell(image);image.addEventListener("error",()=>shell.remove(),{once:true});return shell}
     function prepareEditorImages(editor){
       [...editor.querySelectorAll("img")].forEach(image=>{
         let shell=image.closest(".tracker-image-shell");
         if(!shell){const parent=image.parentNode,next=image.nextSibling;shell=createImageShell(image);if(parent){if(next)parent.insertBefore(shell,next);else parent.append(shell)}}
-        else{shell.contentEditable="false";image.contentEditable="false";image.draggable=false;if(!shell.querySelector(".image-resize-handle")){const handle=document.createElement("span");handle.className="image-resize-handle";handle.contentEditable="false";handle.tabIndex=0;handle.setAttribute("role","button");handle.setAttribute("aria-label","Resize image from the corner");shell.append(handle)}}
+        else{shell.contentEditable="false";image.contentEditable="false";image.draggable=false;ensureImageResizeHandles(shell)}
       })
     }
     const fileToDataUrl=file=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result||""));reader.onerror=()=>reject(reader.error);reader.readAsDataURL(file)});
@@ -554,13 +662,26 @@
       const handle=event.target.closest(".image-resize-handle");if(!handle||event.button!==0)return false;
       const shell=handle.closest(".tracker-image-shell"),cell=editor.closest(".tracker-cell");if(!shell||!cell)return false;
       event.preventDefault();event.stopPropagation();recordHistory();
-      const rect=shell.getBoundingClientRect(),cellRect=cell.getBoundingClientRect();
-      shell.classList.add("is-resized");shell.classList.remove("is-snapped","is-snap-ready");shell.style.width=`${Math.max(56,rect.width)}px`;shell.style.height=`${Math.max(56,rect.height)}px`;
-      imageResize={pointerId:event.pointerId,handle,shell,editor,rowId,columnId,startX:event.clientX,startY:event.clientY,startW:rect.width,startH:rect.height,maxW:Math.max(70,cellRect.width),maxH:Math.max(70,cellRect.height)};
+      const rect=shell.getBoundingClientRect(),cellRect=cell.getBoundingClientRect(),corner=handle.dataset.corner||"br";
+      const startLeft=Number.parseFloat(shell.style.left)||0,startTop=Number.parseFloat(shell.style.top)||0;
+      shell.classList.add("is-resized");shell.classList.remove("is-snapped","is-snap-ready");shell.style.width=`${Math.max(56,rect.width)}px`;shell.style.height=`${Math.max(56,rect.height)}px`;shell.style.position="relative";
+      imageResize={pointerId:event.pointerId,handle,shell,editor,rowId,columnId,corner,startX:event.clientX,startY:event.clientY,startW:rect.width,startH:rect.height,startLeft,startTop,maxW:Math.max(70,cellRect.width),maxH:Math.max(70,cellRect.height)};
       handle.setPointerCapture?.(event.pointerId);return true
     }
-    function moveImageResize(event){if(!imageResize||event.pointerId!==imageResize.pointerId)return;event.preventDefault();const r=imageResize;const width=Math.max(56,Math.min(r.maxW,r.startW+event.clientX-r.startX)),height=Math.max(56,Math.min(r.maxH,r.startH+event.clientY-r.startY));r.shell.style.width=`${width}px`;r.shell.style.height=`${height}px`;r.shell.classList.toggle("is-snap-ready",width>=r.maxW*.84&&height>=r.maxH*.84)}
-    function finishImageResize(event){if(!imageResize||event.pointerId!==imageResize.pointerId)return;const r=imageResize;if(r.shell.classList.contains("is-snap-ready")){r.shell.classList.remove("is-snap-ready","is-resized");r.shell.classList.add("is-snapped");r.shell.style.width="100%";r.shell.style.height="100%"}if(r.handle.hasPointerCapture?.(event.pointerId))r.handle.releasePointerCapture(event.pointerId);commitCell(r.editor,r.rowId,r.columnId);imageResize=null}
+    function moveImageResize(event){
+      if(!imageResize||event.pointerId!==imageResize.pointerId)return;event.preventDefault();
+      const r=imageResize,dx=event.clientX-r.startX,dy=event.clientY-r.startY,leftSide=r.corner.includes("l"),topSide=r.corner.includes("t");
+      const rawW=r.startW+(leftSide?-dx:dx),rawH=r.startH+(topSide?-dy:dy),width=Math.max(56,Math.min(r.maxW,rawW)),height=Math.max(56,Math.min(r.maxH,rawH));
+      r.shell.style.width=`${width}px`;r.shell.style.height=`${height}px`;
+      r.shell.style.left=`${leftSide?r.startLeft+r.startW-width:r.startLeft}px`;
+      r.shell.style.top=`${topSide?r.startTop+r.startH-height:r.startTop}px`;
+      r.shell.classList.toggle("is-snap-ready",width>=r.maxW*.84&&height>=r.maxH*.84)
+    }
+    function finishImageResize(event){
+      if(!imageResize||event.pointerId!==imageResize.pointerId)return;const r=imageResize;
+      if(r.shell.classList.contains("is-snap-ready")){r.shell.classList.remove("is-snap-ready","is-resized");r.shell.classList.add("is-snapped");r.shell.style.width="100%";r.shell.style.height="100%";r.shell.style.left="0px";r.shell.style.top="0px"}
+      if(r.handle.hasPointerCapture?.(event.pointerId))r.handle.releasePointerCapture(event.pointerId);commitCell(r.editor,r.rowId,r.columnId);imageResize=null
+    }
     window.addEventListener("pointermove",moveImageResize,{passive:false});window.addEventListener("pointerup",finishImageResize);window.addEventListener("pointercancel",finishImageResize);
     function makeCell(row,rowIndex,column,columnIndex){const cell=document.createElement("div");cell.className="tracker-cell";cell.dataset.rowIndex=String(rowIndex);cell.dataset.columnIndex=String(columnIndex);cell.dataset.rowId=row.id;cell.dataset.columnId=column.id;cell.setAttribute("role","gridcell");cell.setAttribute("aria-label",`${column.title||`Column ${columnIndex+1}`}, row ${rowIndex+1}`);const editor=document.createElement("div");editor.className="tracker-cell-editor";editor.contentEditable="true";editor.spellcheck=false;editor.dataset.rowIndex=String(rowIndex);editor.dataset.columnIndex=String(columnIndex);editor.dataset.rowId=row.id;editor.dataset.columnId=column.id;editor.setAttribute("role","textbox");editor.setAttribute("aria-multiline","true");editor.setAttribute("aria-label",`${column.title||`Column ${columnIndex+1}`}, row ${rowIndex+1}`);editor.innerHTML=state.cells.get(key(row.id,column.id))||"";prepareEditorImages(editor);editor.addEventListener("pointerdown",event=>beginImageResize(event,editor,row.id,column.id));editor.addEventListener("beforeinput",event=>{if(event.inputType==="historyUndo"||event.inputType==="historyRedo"){event.preventDefault();event.inputType==="historyUndo"?undo():redo();return}if(event.inputType==="insertParagraph"||event.inputType==="insertLineBreak"){event.preventDefault();if(acceptSuggestion(editor,row.id,column.id))return;commitCell(editor,row.id,column.id);moveBelow(rowIndex,columnIndex);return}recordHistory()});editor.addEventListener("input",()=>{commitCell(editor,row.id,column.id);updateSuggestion(editor)});editor.addEventListener("blur",()=>{commitCell(editor,row.id,column.id);clearSuggestion(editor)});editor.addEventListener("keydown",event=>{if(event.key==="Enter"&&!event.shiftKey&&!event.ctrlKey&&!event.metaKey&&!event.altKey){event.preventDefault();if(acceptSuggestion(editor,row.id,column.id))return;commitCell(editor,row.id,column.id);moveBelow(rowIndex,columnIndex)}});editor.addEventListener("focus",()=>updateSuggestion(editor));editor.addEventListener("keyup",event=>{if(!["Enter","Shift","Control","Meta","Alt"].includes(event.key))updateSuggestion(editor)});editor.addEventListener("click",()=>updateSuggestion(editor));editor.addEventListener("copy",event=>copySelection(event,editor));editor.addEventListener("paste",event=>handlePaste(event,editor,row.id,column.id));editor.addEventListener("dragenter",event=>{event.preventDefault();cell.classList.add("is-dragover")});editor.addEventListener("dragover",event=>{event.preventDefault();if(event.dataTransfer)event.dataTransfer.dropEffect="copy";cell.classList.add("is-dragover")});editor.addEventListener("dragleave",event=>{if(!cell.contains(event.relatedTarget))cell.classList.remove("is-dragover")});editor.addEventListener("drop",event=>handleDrop(event,cell,editor,row.id,column.id));cell.append(editor);return cell}
     function render(options={}){normalizeDefaultTitles();board.style.setProperty("--tracker-cols",String(state.columns.length));board.style.setProperty("--tracker-rows",String(state.rows.length));grid.setAttribute("aria-colcount",String(state.columns.length));grid.setAttribute("aria-rowcount",String(state.rows.length+1));grid.replaceChildren();rail.replaceChildren();const spacer=document.createElement("div");spacer.className="row-delete-spacer";spacer.setAttribute("aria-hidden","true");rail.append(spacer);state.columns.forEach((column,columnIndex)=>grid.append(makeHeader(column,columnIndex)));state.rows.forEach((row,rowIndex)=>{const remove=makeButton("row-delete",`Delete row ${rowIndex+1}`,trashIcon);remove.dataset.rowIndex=String(rowIndex);remove.addEventListener("click",()=>deleteRow(rowIndex));rail.append(remove);state.columns.forEach((column,columnIndex)=>grid.append(makeCell(row,rowIndex,column,columnIndex)))});applyPosition();if(options.focus)focusCell(options.focus.row,options.focus.column)}
@@ -578,19 +699,67 @@
       const row=state.rows[rowIndex];state.columns.forEach(column=>state.cells.delete(key(row.id,column.id)));state.rows.splice(rowIndex,1);render()
     }
     function clampPosition(x,y){const width=board.offsetWidth||1,height=board.offsetHeight||1,cw=canvas.clientWidth||1,ch=canvas.clientHeight||1,minVisible=110;const minX=Math.min(145,cw-width-minVisible),maxX=cw-minVisible,minY=Math.min(20,ch-height-minVisible),maxY=ch-minVisible;return{x:Math.min(maxX,Math.max(minX,x)),y:Math.min(maxY,Math.max(minY,y))}}
-    function applyPosition(){const p=clampPosition(state.position.x,state.position.y);state.position=p;board.style.transform=`translate3d(${Math.round(p.x)}px,${Math.round(p.y)}px,0)`}
-    function ensurePosition(){if(state.positioned){applyPosition();return}requestAnimationFrame(()=>{const leftReserve=window.innerWidth<=820?122:174;state.position.x=Math.max(leftReserve+28,(canvas.clientWidth-board.offsetWidth)/2+leftReserve/2);state.position.y=Math.max(48,(canvas.clientHeight-board.offsetHeight)/2);state.positioned=true;applyPosition()})}
+    function applyPosition(){const p=clampPosition(state.position.x,state.position.y);state.position=p;board.style.transform="none";board.style.left=`${Math.round(p.x)}px`;board.style.top=`${Math.round(p.y)}px`}
+    function ensurePosition(){if(state.positioned){applyPosition();return}requestAnimationFrame(()=>{const leftReserve=0;state.position.x=Math.max(28,(canvas.clientWidth-board.offsetWidth)/2);state.position.y=Math.max(48,(canvas.clientHeight-board.offsetHeight)/2);state.positioned=true;applyPosition()})}
     let drag=null;
     board.addEventListener("pointerdown",event=>{const header=event.target.closest(".tracker-header");if(!header||event.target.closest(".delete-column")||event.button!==0)return;const title=event.target.closest(".tracker-header-title"),handle=event.target.closest(".tracker-header-grab");if(title&&!handle)return;event.preventDefault();drag={pointerId:event.pointerId,startX:event.clientX,startY:event.clientY,originX:state.position.x,originY:state.position.y,moved:false,header}});
-    board.addEventListener("pointermove",event=>{if(!drag||event.pointerId!==drag.pointerId)return;const dx=event.clientX-drag.startX,dy=event.clientY-drag.startY;if(!drag.moved&&Math.hypot(dx,dy)<6)return;if(!drag.moved){drag.moved=true;drag.header.setPointerCapture?.(event.pointerId);document.body.classList.add("is-board-dragging");window.getSelection()?.removeAllRanges()}const p=clampPosition(drag.originX+dx,drag.originY+dy);state.position=p;board.style.transform=`translate3d(${Math.round(p.x)}px,${Math.round(p.y)}px,0)`;event.preventDefault()});
+    board.addEventListener("pointermove",event=>{if(!drag||event.pointerId!==drag.pointerId)return;const dx=event.clientX-drag.startX,dy=event.clientY-drag.startY;if(!drag.moved&&Math.hypot(dx,dy)<6)return;if(!drag.moved){drag.moved=true;drag.header.setPointerCapture?.(event.pointerId);document.body.classList.add("is-board-dragging");window.getSelection()?.removeAllRanges()}const p=clampPosition(drag.originX+dx,drag.originY+dy);state.position=p;board.style.transform="none";board.style.left=`${Math.round(p.x)}px`;board.style.top=`${Math.round(p.y)}px`;event.preventDefault()});
     function finishDrag(event){if(!drag||event.pointerId!==drag.pointerId)return;if(drag.moved&&drag.header.hasPointerCapture?.(event.pointerId))drag.header.releasePointerCapture(event.pointerId);document.body.classList.remove("is-board-dragging");drag=null}
     board.addEventListener("pointerup",finishDrag);board.addEventListener("pointercancel",finishDrag);
     function clearProximity(){board.classList.remove("near-right","near-bottom");rail.querySelectorAll(".row-delete.is-visible").forEach(button=>button.classList.remove("is-visible"))}
     function updateProximity(event){const rect=grid.getBoundingClientRect(),x=event.clientX,y=event.clientY;const nearRight=x>=rect.right-42&&x<=rect.right+112&&y>=rect.top-45&&y<=rect.bottom+45;const nearBottom=y>=rect.bottom-42&&y<=rect.bottom+112&&x>=rect.left-55&&x<=rect.right+55;board.classList.toggle("near-right",nearRight);board.classList.toggle("near-bottom",nearBottom);let rowIndex=null;const targetCell=event.target.closest?.(".tracker-cell");if(targetCell)rowIndex=Number(targetCell.dataset.rowIndex);if(rowIndex===null||!Number.isInteger(rowIndex)){const firstColumnCells=[...grid.querySelectorAll('.tracker-cell[data-column-index="0"]')],hit=firstColumnCells.find(cell=>{const r=cell.getBoundingClientRect();return y>=r.top&&y<=r.bottom&&x>=rect.left-90&&x<=rect.right});if(hit)rowIndex=Number(hit.dataset.rowIndex)}rail.querySelectorAll(".row-delete").forEach((button,index)=>button.classList.toggle("is-visible",index===rowIndex))}
     canvas.addEventListener("pointermove",event=>{if(!drag)updateProximity(event)});canvas.addEventListener("pointerleave",event=>{if(!board.contains(event.relatedTarget))clearProximity()});
     document.addEventListener("keydown",event=>{if(!document.body.classList.contains("tracker-active")||!(event.ctrlKey||event.metaKey)||event.altKey)return;const keyName=event.key.toLowerCase();if(keyName==="z"){event.preventDefault();event.shiftKey?redo():undo()}else if(keyName==="y"){event.preventDefault();redo()}},true);
-    addColumnButton.addEventListener("click",addColumn);addRowButton.addEventListener("click",()=>addRow());window.addEventListener("resize",()=>{if(state.positioned)applyPosition()});render();window.runTracker={ensurePosition,addColumn,addRow,undo,redo,state};
+    addColumnButton.addEventListener("click",addColumn);addRowButton.addEventListener("click",()=>addRow());window.addEventListener("resize",()=>{if(state.positioned)applyPosition()});render();window.runTracker={ensurePosition,addColumn,addRow,undo,redo,state,exportState:persistentSnapshot,restoreState:restorePersistent};
   })();
   </script>
+
+  <script>
+  (()=>{"use strict";
+    const DB_NAME="lethal-company-calculator",DB_VERSION=1,STORE_NAME="app-state",RECORD_KEY="primary",FULL_KEY="lc-tool-state-v1",QUICK_KEY="lc-tool-quick-v1",UI_KEY="lc-tool-ui-v1";
+    let initialized=false,saveTimer=0,pendingWrites=new Set(),resolveReady;
+    const ready=new Promise(resolve=>{resolveReady=resolve});
+    const parse=value=>{try{return value?JSON.parse(value):null}catch{return null}},safeGet=key=>{try{return localStorage.getItem(key)}catch{return null}};
+    function openDatabase(){return new Promise(resolve=>{if(!window.indexedDB){resolve(null);return}let request;try{request=indexedDB.open(DB_NAME,DB_VERSION)}catch{resolve(null);return}request.onupgradeneeded=()=>{const db=request.result;if(!db.objectStoreNames.contains(STORE_NAME))db.createObjectStore(STORE_NAME)};request.onsuccess=()=>resolve(request.result);request.onerror=()=>resolve(null);request.onblocked=()=>resolve(null)})}
+    const databasePromise=openDatabase();
+    async function readDatabase(){const db=await databasePromise;if(!db)return null;return new Promise(resolve=>{let request;try{const transaction=db.transaction(STORE_NAME,"readonly");request=transaction.objectStore(STORE_NAME).get(RECORD_KEY)}catch{resolve(null);return}request.onsuccess=()=>resolve(request.result||null);request.onerror=()=>resolve(null)})}
+    async function writeDatabase(payload){const db=await databasePromise;if(!db)return false;return new Promise(resolve=>{let transaction;try{transaction=db.transaction(STORE_NAME,"readwrite");transaction.objectStore(STORE_NAME).put(payload,RECORD_KEY)}catch{resolve(false);return}transaction.oncomplete=()=>resolve(true);transaction.onerror=()=>resolve(false);transaction.onabort=()=>resolve(false)})}
+    function capture(){return{version:1,updatedAt:Date.now(),ui:window.siteViews?.exportState?.()||{},sell:window.sellCalculator?.exportState?.()||{},tracker:window.runTracker?.exportState?.()||null}}
+    function saveLocal(payload){
+      try{localStorage.setItem(UI_KEY,JSON.stringify({...payload.ui,updatedAt:payload.updatedAt}))}catch{}
+      try{localStorage.setItem(QUICK_KEY,JSON.stringify({version:payload.version,updatedAt:payload.updatedAt,ui:payload.ui,sell:payload.sell}))}catch{}
+      try{const full=JSON.stringify(payload);if(full.length<4500000)localStorage.setItem(FULL_KEY,full);else localStorage.removeItem(FULL_KEY)}catch{}
+    }
+    function persist(payload){saveLocal(payload);const task=writeDatabase(payload);pendingWrites.add(task);task.finally(()=>pendingWrites.delete(task));return task}
+    function scheduleSave(delay=220){if(!initialized)return;clearTimeout(saveTimer);saveTimer=setTimeout(()=>persist(capture()),delay)}
+    function flush(){if(!initialized)return Promise.resolve(false);clearTimeout(saveTimer);return persist(capture())}
+    async function loadSaved(){
+      const localFull=parse(safeGet(FULL_KEY)),quick=parse(safeGet(QUICK_KEY)),dbState=await readDatabase();
+      const candidates=[localFull,dbState].filter(value=>value&&typeof value==="object");let saved=candidates.sort((a,b)=>(Number(b.updatedAt)||0)-(Number(a.updatedAt)||0))[0]||null;
+      if(quick&&typeof quick==="object"&&(!saved||(Number(quick.updatedAt)||0)>(Number(saved.updatedAt)||0))){saved={...(saved||{}),version:1,updatedAt:quick.updatedAt,ui:quick.ui||saved?.ui||{},sell:quick.sell||saved?.sell||{},tracker:saved?.tracker||null}}
+      return saved
+    }
+    function observeChanges(){
+      ["input","change","click","focusout"].forEach(type=>document.addEventListener(type,()=>scheduleSave(),true));
+      ["paste","drop"].forEach(type=>document.addEventListener(type,()=>{scheduleSave(450);setTimeout(()=>scheduleSave(0),1100)},true));
+      window.addEventListener("pointerup",()=>scheduleSave(),true);
+      document.querySelectorAll(".view-tab").forEach(tab=>{tab.addEventListener("pointerenter",()=>setTimeout(()=>scheduleSave(0),0));tab.addEventListener("focus",()=>setTimeout(()=>scheduleSave(0),0))});
+      const observer=new MutationObserver(()=>scheduleSave());
+      observer.observe(document.documentElement,{attributes:true,attributeFilter:["class"]});
+      const nav=document.getElementById("viewNav"),drawer=document.getElementById("drawer"),trackerGrid=document.getElementById("trackerGrid");
+      if(nav)observer.observe(nav,{subtree:true,attributes:true,attributeFilter:["class","aria-selected"]});
+      if(drawer)observer.observe(drawer,{attributes:true,attributeFilter:["class"]});
+      if(trackerGrid)observer.observe(trackerGrid,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["class","style"]});
+      document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")flush()});window.addEventListener("pagehide",flush);window.addEventListener("beforeunload",flush);
+    }
+    async function initialize(){
+      const saved=await loadSaved();
+      if(saved){try{window.sellCalculator?.restoreState?.(saved.sell||{})}catch(error){console.warn("Sell state could not be restored",error)}try{window.runTracker?.restoreState?.(saved.tracker)}catch(error){console.warn("Tracker state could not be restored",error)}try{window.siteViews?.restoreState?.(saved.ui||{})}catch(error){console.warn("View state could not be restored",error)}}
+      initialized=true;observeChanges();scheduleSave(0);resolveReady(saved);
+    }
+    window.LCPersistence={ready,save:flush,schedule:scheduleSave};initialize();
+  })();
+  </script>
+
 </body>
 </html>
