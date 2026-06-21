@@ -377,6 +377,46 @@
     .tracker-image-shell:focus-within .image-resize-handle,
     .image-resize-handle:focus-visible{opacity:1}
 
+
+    /* Existing credits sits beside Selling Day without changing the middle card's proportions. */
+    .middle-controls{
+      position:relative;z-index:1;
+      display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+      gap:.65rem;margin-top:auto;
+    }
+    .existing-credit,.middle-controls .inline-rate{
+      width:100%;min-width:0;margin:0;padding:.72rem;
+      border:1px solid var(--line);border-radius:var(--radius-sm);
+      background:rgba(255,255,255,.035);box-shadow:none;
+    }
+    .existing-credit{display:grid;align-content:center;gap:.48rem}
+    .existing-credit-label,.middle-controls .inline-rate span{
+      color:var(--soft);font:950 .72rem/1.1 var(--mono);
+      letter-spacing:.085em;text-transform:uppercase;
+    }
+    .existing-money{
+      display:flex;align-items:center;min-width:0;
+      border:1px solid var(--line);border-radius:11px;
+      background:rgba(3,0,1,.76);overflow:hidden;
+    }
+    .existing-prefix{flex:none;padding-left:.68rem;color:var(--soft);font:950 1rem var(--mono)}
+    .existing-input{
+      width:100%;min-width:0;border:0;padding:.73rem .62rem .73rem .28rem;
+      color:var(--text);background:transparent;font:900 .95rem var(--mono);
+      outline:0;-moz-appearance:textfield;
+    }
+    .existing-input::-webkit-inner-spin-button,.existing-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+    .middle-controls .inline-rate label{display:grid;grid-template-columns:1fr;gap:.48rem}
+    .middle-controls .inline-rate select{min-width:0;padding:.73rem .68rem;font-size:.95rem}
+    html.sorf-mode .existing-money{background:rgba(0,7,18,.75)}
+
+    @media(max-width:380px){
+      .middle-controls{gap:.48rem}
+      .existing-credit,.middle-controls .inline-rate{padding:.58rem}
+      .existing-credit-label,.middle-controls .inline-rate span{font-size:.64rem}
+      .existing-input,.middle-controls .inline-rate select{font-size:.86rem}
+    }
+
   </style>
   <script>
     (()=>{try{const saved=JSON.parse(localStorage.getItem("lc-tool-ui-v1")||"null");if(saved?.sorfMode)document.documentElement.classList.add("sorf-mode")}catch{}})();
@@ -403,9 +443,15 @@
             <label class="label" for="scrap">Scrap to sell</label>
             <span class="money scrap-money"><span class="prefix" aria-hidden="true">▮</span><input id="scrap" class="main-input" type="number" min="0" step="1" inputmode="numeric" placeholder="876" aria-label="Raw scrap to sell" aria-describedby="answerStatus"></span>
             <p id="answerStatus" class="status" role="status" aria-live="polite">Enter box 1 and type a sale here, or fill box 3 to solve for the minimum sale.</p>
-            <section class="rate inline-rate" aria-label="Selling percentage">
-              <label for="rate"><span>Selling day</span><select id="rate"><option value="100" selected>100%</option><option value="77">77%</option><option value="53">53%</option><option value="30">30%</option></select></label>
-            </section>
+            <div class="middle-controls">
+              <label class="existing-credit" for="existingCredits">
+                <span class="existing-credit-label">Existing ▮</span>
+                <span class="existing-money"><span class="existing-prefix" aria-hidden="true">▮</span><input id="existingCredits" class="existing-input" type="number" min="0" step="1" inputmode="numeric" placeholder="0" aria-label="Existing credits"></span>
+              </label>
+              <section class="rate inline-rate" aria-label="Selling percentage">
+                <label for="rate"><span>Selling day</span><select id="rate"><option value="100" selected>100%</option><option value="77">77%</option><option value="53">53%</option><option value="30">30%</option></select></label>
+              </section>
+            </div>
           </section>
           <section class="card">
             <label class="label" for="desired">Desired amount</label>
@@ -464,7 +510,7 @@
       ["mat","Welcome Mat",40,"Decor"],["goldfish","Goldfish",50,"Decor"],["pumpkin","Jack O' Lantern",50,"Decor"],["green","Green Suit",60,"Decor"],["purple","Purple Suit",70,"Decor"],["table","Table",70,"Decor"],["microwave","Microwave",80,"Decor"],["dog-house","Dog House",80,"Decor"],["hazard","Hazard Suit",90,"Decor"],["plushie","Plushie Pajama Man",100,"Decor"],["bee","Bee Suit",110,"Decor"],["record","Record Player",120,"Decor"],["romantic","Romantic Table",120,"Decor"],["tv","Television",130,"Decor"],["lights","Cozy Lights",140,"Decor"],["electric-chair","Electric Chair",140,"Decor"],["toilet","Toilet",150,"Decor"],["disco","Disco Ball",150,"Decor"],["sofa","Sofa Chair",150,"Decor"],["shower","Shower",180,"Decor"],["bunny","Bunny Suit",200,"Decor"],["fridge","Fridge",225,"Decor"],["painting","Classic Painting",400,"Decor"],["pajama","Pajama Suit",900,"Decor"]
     ].map(([id,name,price,category])=>({id,name,price,category}));
     const byMoon=Object.fromEntries(moons.map(x=>[x.id,x])),byItem=Object.fromEntries(items.map(x=>[x.id,x]));
-    const $=id=>document.getElementById(id),el={quota:$("quota"),scrap:$("scrap"),desired:$("desired"),rate:$("rate"),answerStatus:$("answerStatus"),open:$("openPurchases"),drawer:$("drawer"),close:$("closePurchases"),moons:$("moons"),search:$("search"),tabs:$("shopTabs"),shop:$("shop"),selected:$("selected"),empty:$("empty"),total:$("total"),clear:$("clear")};
+    const $=id=>document.getElementById(id),el={quota:$("quota"),scrap:$("scrap"),desired:$("desired"),existing:$("existingCredits"),rate:$("rate"),answerStatus:$("answerStatus"),open:$("openPurchases"),drawer:$("drawer"),close:$("closePurchases"),moons:$("moons"),search:$("search"),tabs:$("shopTabs"),shop:$("shop"),selected:$("selected"),empty:$("empty"),total:$("total"),clear:$("clear")};
     const state={moon:null,cart:{},prices:Object.fromEntries(items.map(x=>[x.id,x.price])),category:"All",search:"",calculatorMode:"target",scrapWasCalculated:false};
     const credits=v=>`${CREDIT}${fmt.format(Math.max(0,Math.floor(Number(v)||0)))}`;
     const read=input=>input.value.trim()===""?null:(Number.isFinite(+input.value)&&+input.value>=0?Math.floor(+input.value):null);
@@ -480,21 +526,23 @@
     }
     function minimum(quota,target,rate){const ok=x=>{const r=sale(x,quota,rate);return r.met&&r.payout>=target};let lo=0,hi=1,cap=1e9;while(!ok(hi)&&hi<cap)hi*=2;if(hi>=cap&&!ok(hi))return null;while(lo<hi){const m=Math.floor((lo+hi)/2);if(ok(m))hi=m;else lo=m+1}return lo}
     function calculate(){
-      const q=read(el.quota),t=read(el.desired),enteredRaw=read(el.scrap),r=+el.rate.value;
+      const q=read(el.quota),t=read(el.desired),enteredRaw=read(el.scrap),existing=read(el.existing)??0,r=+el.rate.value;
       if(q===null){if(state.scrapWasCalculated){el.scrap.value="";state.scrapWasCalculated=false}el.answerStatus.textContent=(t!==null||enteredRaw!==null)?"Fill in the current quota in box 1 to calculate overtime.":"Enter box 1 and type a sale here, or fill box 3 to solve for the minimum sale.";return}
       if(state.calculatorMode==="target"&&t!==null){
-        const raw=minimum(q,t,r);
+        // Existing bank credits reduce the amount this sale must earn, but they
+        // never count toward fulfilling the current profit quota.
+        const saleTarget=Math.max(0,t-existing),raw=minimum(q,saleTarget,r);
         if(raw===null){el.scrap.value="";state.scrapWasCalculated=false;el.answerStatus.textContent="No result was found for this target.";return}
-        const out=sale(raw,q,r),difference=out.payout-t;
+        const out=sale(raw,q,r),available=existing+out.payout,difference=available-t;
         el.scrap.value=String(raw);state.scrapWasCalculated=true;
-        el.answerStatus.textContent=difference===0?`Minimum sale for ${credits(t)} — exact payout with ${credits(out.overtime)} overtime.`:`Minimum sale for ${credits(t)} — pays ${credits(difference)} above the target with ${credits(out.overtime)} overtime.`;
+        el.answerStatus.textContent=difference===0?`Minimum sale for ${credits(t)} total — includes ${credits(out.overtime)} overtime.`:`Minimum sale for ${credits(t)} total — leaves ${credits(difference)} extra and includes ${credits(out.overtime)} overtime.`;
         return
       }
       if(enteredRaw!==null){
-        const out=sale(enteredRaw,q,r);
+        const out=sale(enteredRaw,q,r),available=existing+out.payout;
         if(!out.met){el.answerStatus.textContent=`Quota is still short by ${credits(q-out.fulfilled)}; overtime is ${credits(0)}.`;return}
-        if(t!==null){const difference=out.payout-t;el.answerStatus.textContent=difference===0?`Exact match for box 3, including ${credits(out.overtime)} overtime.`:difference>0?`${credits(difference)} above box 3, including ${credits(out.overtime)} overtime.`:`${credits(Math.abs(difference))} short of box 3, including ${credits(out.overtime)} overtime.`;return}
-        el.answerStatus.textContent=`This sale pays ${credits(out.payout)}, including ${credits(out.overtime)} overtime.`;
+        if(t!==null){const difference=available-t;el.answerStatus.textContent=difference===0?`Exact match for box 3, including ${credits(out.overtime)} overtime.`:difference>0?`${credits(difference)} above box 3, including ${credits(out.overtime)} overtime.`:`${credits(Math.abs(difference))} short of box 3, including ${credits(out.overtime)} overtime.`;return}
+        el.answerStatus.textContent=existing>0?`This sale pays ${credits(out.payout)} with ${credits(out.overtime)} overtime; total available is ${credits(available)}.`:`This sale pays ${credits(out.payout)}, including ${credits(out.overtime)} overtime.`;
         return
       }
       el.answerStatus.textContent=t!==null?"Click box 2 and enter scrap, or edit box 3 to solve automatically.":"Enter a scrap amount here to calculate its overtime payout.";
@@ -530,13 +578,13 @@
     function clearPurchases(){state.moon=null;state.cart={};renderMoons();renderShop();renderSelected();sync()}
     function showDrawer(open,scroll=true){el.drawer.classList.toggle("open",open);el.open.setAttribute("aria-expanded",String(open));if(open&&scroll)requestAnimationFrame(()=>el.drawer.scrollIntoView({behavior:"smooth",block:"start"}))}
     function safeInputValue(value){const number=Number(value);return value!==""&&value!==null&&value!==undefined&&Number.isFinite(number)&&number>=0?String(Math.floor(number)):""}
-    function exportState(){return{quota:el.quota.value,scrap:el.scrap.value,desired:el.desired.value,rate:el.rate.value,moon:state.moon,cart:{...state.cart},prices:{...state.prices},category:state.category,search:state.search,calculatorMode:state.calculatorMode,scrapWasCalculated:state.scrapWasCalculated,drawerOpen:el.drawer.classList.contains("open")}}
+    function exportState(){return{quota:el.quota.value,scrap:el.scrap.value,desired:el.desired.value,existing:el.existing.value,rate:el.rate.value,moon:state.moon,cart:{...state.cart},prices:{...state.prices},category:state.category,search:state.search,calculatorMode:state.calculatorMode,scrapWasCalculated:state.scrapWasCalculated,drawerOpen:el.drawer.classList.contains("open")}}
     function restoreState(saved={}){
       state.moon=typeof saved.moon==="string"&&byMoon[saved.moon]?saved.moon:null;
       const restoredCart={};Object.entries(saved.cart&&typeof saved.cart==="object"?saved.cart:{}).forEach(([id,qty])=>{const amount=Math.floor(Number(qty));if(byItem[id]&&Number.isFinite(amount)&&amount>0)restoredCart[id]=amount});state.cart=restoredCart;
       state.prices=Object.fromEntries(items.map(item=>{const value=Number(saved.prices?.[item.id]);return[item.id,Number.isFinite(value)&&value>=0?Math.floor(value):item.price]}));
       state.category=["All","Gear","Upgrades","Decor"].includes(saved.category)?saved.category:"All";state.search=typeof saved.search==="string"?saved.search:"";state.calculatorMode=saved.calculatorMode==="sale"?"sale":"target";state.scrapWasCalculated=Boolean(saved.scrapWasCalculated);
-      el.quota.value=safeInputValue(saved.quota);el.scrap.value=safeInputValue(saved.scrap);el.desired.value=safeInputValue(saved.desired);const rate=String(saved.rate??"100");el.rate.value=[...el.rate.options].some(option=>option.value===rate)?rate:"100";el.search.value=state.search;
+      el.quota.value=safeInputValue(saved.quota);el.scrap.value=safeInputValue(saved.scrap);el.desired.value=safeInputValue(saved.desired);el.existing.value=safeInputValue(saved.existing);const rate=String(saved.rate??"100");el.rate.value=[...el.rate.options].some(option=>option.value===rate)?rate:"100";el.search.value=state.search;
       renderMoons();renderTabs();renderShop();renderSelected();showDrawer(Boolean(saved.drawerOpen),false);calculate();
     }
     window.showToast=function(){};
@@ -544,7 +592,7 @@
     el.scrap.oninput=()=>{state.calculatorMode="sale";state.scrapWasCalculated=false;calculate()};
     el.scrap.onfocus=()=>{if(state.scrapWasCalculated&&el.scrap.value)requestAnimationFrame(()=>el.scrap.select())};
     el.desired.oninput=()=>{state.calculatorMode="target";if(read(el.desired)===null&&state.scrapWasCalculated){el.scrap.value="";state.scrapWasCalculated=false}calculate()};
-    el.rate.onchange=calculate;el.open.onclick=()=>showDrawer(!el.drawer.classList.contains("open"));el.close.onclick=()=>showDrawer(false);el.search.oninput=()=>{state.search=el.search.value;renderShop()};el.clear.onclick=clearPurchases;
+    el.existing.oninput=calculate;el.rate.onchange=calculate;el.open.onclick=()=>showDrawer(!el.drawer.classList.contains("open"));el.close.onclick=()=>showDrawer(false);el.search.oninput=()=>{state.search=el.search.value;renderShop()};el.clear.onclick=clearPurchases;
     renderMoons();renderTabs();renderShop();renderSelected();calculate();
     window.sellCalculator={exportState,restoreState};
   })();
